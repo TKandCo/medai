@@ -2,8 +2,9 @@
 // Dữ liệu: data/db.json (do tools/build.mjs tạo). Định tuyến bằng #/...
 
 import { normalizeText, buildRuleIndex, checkHerbs, splitHerbList, slugify } from './core.js';
+import { pageLearn, pageTongue, mountTongue, pageThuyHoa, mountThuyHoa, pageDragon, mountDragon } from './hoc.js';
 
-const $main = document.getElementById('main');
+let $main = document.getElementById('main');
 let DB = null;
 let RULES = null;
 let BY_ID = new Map();
@@ -111,6 +112,7 @@ function pageHome() {
     </section>
     <section class="stats">${counts}</section>
     <section class="tiles">
+      <a class="tile" href="#/hoc"><h2>Học bằng hình</h2><p>Nồi nước – Bếp lửa để hiểu hàn nhiệt hư thực; Lưỡi tự dựng để hiểu thiệt chẩn.</p></a>
       <a class="tile" href="#/kiem-chung"><h2>Kiểm chứng lời đồn</h2><p>Dán một bài thuốc nghe được trên mạng. MEDAI đối chiếu với Thập bát phản, Thập cửu úy, thai kỵ và vị có độc.</p></a>
       <a class="tile" href="#/muc/thuat-ngu"><h2>Học từ gốc</h2><p>Mỗi thuật ngữ có 3 tầng giải thích: bình dân, học viên, chuyên sâu kèm nguyên văn.</p></a>
       <a class="tile" href="#/nguon"><h2>Danh thư</h2><p>Các bộ sách làm nền cho sổ cái và nơi đọc bản số hóa miễn phí.</p></a>
@@ -301,7 +303,12 @@ function route() {
   const parts = path.split('/').filter(Boolean);
   const params = new URLSearchParams(query);
   let html;
+  let mount = null;
   if (parts.length === 0) html = pageHome();
+  else if (parts[0] === 'hoc' && parts[1] === 'luoi') { setTitle('Lưỡi tự dựng'); html = pageTongue(); mount = mountTongue; }
+  else if (parts[0] === 'hoc' && parts[1] === 'thuy-hoa') { setTitle('Nồi nước – Bếp lửa'); html = pageThuyHoa(); mount = mountThuyHoa; }
+  else if (parts[0] === 'hoc' && parts[1] === 'rong') { setTitle('Rồng về ổ'); html = pageDragon(); mount = mountDragon; }
+  else if (parts[0] === 'hoc') { setTitle('Học bằng hình'); html = pageLearn(); }
   else if (parts[0] === 'muc') html = pageList(parts[1]);
   else if (parts[0] === 'm') html = pageEntry(parts[1]);
   else if (parts[0] === 'tim') html = pageSearch(params.get('q') ?? '');
@@ -309,7 +316,12 @@ function route() {
   else if (parts[0] === 'nguon') html = pageSources();
   else if (parts[0] === 'gioi-thieu') html = pageAbout();
   else html = pageNotFound();
+  // Thay cả khối main để các trình nghe sự kiện của trang trước không dồn lại
+  const fresh = $main.cloneNode(false);
+  $main.replaceWith(fresh);
+  $main = fresh;
   $main.innerHTML = html;
+  if (mount) mount($main, params);
   document.querySelectorAll('.mainnav a').forEach((a) => a.toggleAttribute('aria-current', location.hash.startsWith(a.getAttribute('href'))));
   window.scrollTo(0, 0);
   $main.focus({ preventScroll: true });
