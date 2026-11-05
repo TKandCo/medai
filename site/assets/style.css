@@ -234,3 +234,52 @@ blockquote.cite footer { margin-top: 4px; font-size: 14px; color: var(--muted); 
 @keyframes wiggle { 0% { transform: rotate(-3deg); } 100% { transform: rotate(3deg); } }
 @media (prefers-reduced-motion: reduce) { .dr-wiggle { animation: none; } }
 .dr-center { text-anchor: middle; }
+
+/* ---------- Chuỗi lý luận, giải chữ, đội hình ---------- */
+.chain { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; margin: 16px 0; }
+.chain-step { flex: 1 1 140px; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 15px; }
+.chain-step.here { border-color: var(--brand); background: var(--brand-soft); }
+.chain-label { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.chain-arrow { align-self: center; color: var(--muted); font-size: 20px; }
+
+.giai-chu { margin: 16px 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 6px 14px; }
+.giai-chu summary { cursor: pointer; font-weight: 700; color: var(--brand); padding: 6px 0; }
+.giai-chu table { background: transparent; }
+.han.big { font-size: 26px; text-decoration: none; }
+.han.huge { font-size: 96px; line-height: 1; }
+.chu-head { display: flex; align-items: center; gap: 24px; margin: 8px 0 16px; }
+.chu-head h1 { margin: 0; }
+.chu-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chu-chip { display: inline-flex; flex-direction: column; align-items: center; min-width: 56px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px; text-decoration: none; font-size: 26px; background: var(--surface); }
+.chu-chip small { font-family: var(--font); font-size: 13px; color: var(--muted); }
+
+.picture-note { margin: 16px 0; padding: 12px 16px; border: 1px dashed var(--accent); border-radius: var(--radius); }
+.picture-note p { margin: 4px 0 0; }
+.picture-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
+
+.team { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 12px 0; }
+.team-col { padding: 12px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); border-top: 4px solid var(--muted); }
+.team-quan { border-top-color: var(--do); }
+.team-than { border-top-color: var(--accent); }
+.team-ta { border-top-color: var(--brand); }
+.team-su { border-top-color: var(--nhap); }
+.team-col h3 { margin: 0 0 8px; font-size: 18px; display: flex; flex-direction: column; }
+.team-col h3 small { font-size: 13px; font-weight: 400; color: var(--muted); }
+.member { padding: 8px 0; border-top: 1px solid var(--line); }
+.member-name { font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+.dose { font-weight: 400; color: var(--muted); font-size: 14px; white-space: nowrap; }
+.member-job { font-size: 15px; margin-top: 2px; }
+.drop-list details { margin: 6px 0; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.drop-list summary { cursor: pointer; }
+.drop-list p { margin: 8px 0 0; }
+.family { padding-left: 20px; }
+.family li { margin: 8px 0; }
+.plus { color: var(--xanh); font-weight: 600; }
+.minus { color: var(--do); font-weight: 600; }
+
+.gram-result { padding: 16px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.gram-name { font-size: 30px; font-weight: 700; margin: 0; }
+.gram-han { font-size: 34px; margin: 4px 0 12px; }
+.gram-han a { text-decoration: none; margin-right: 6px; }
+.g1 { color: var(--do); } .g2 { color: var(--accent); } .g3 { color: var(--brand); }
+.tile-link { font-weight: 700; }

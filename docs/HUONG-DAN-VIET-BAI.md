@@ -59,3 +59,18 @@ Các trường khác (`cong_nang`, `chu_tri`, `lieu`, `bao_che`, `kieng_ky`, `do
 
 Ba file JSON đang ở trạng thái **nháp**: danh sách khởi đầu theo các bài ca truyền thống, cần đối chiếu
 với *Tọa thảo lương mô*, *Dược phẩm vựng yếu*. Khi thêm vị, ghi đúng tên tiếng Việt như tên trang.
+
+## Chứng bệnh, phép trị và đội hình bài thuốc
+
+Mẫu: `templates/chung.md`, `templates/phep-tri.md`, `templates/bai-thuoc.md`.
+
+- **Chuỗi lý luận:** bài thuốc ghi `chung: [...]` và `phep_tri: [...]` (mã trang). Trang chứng ghi `phep_tri`, `bai_thuoc`. Web tự nối hai chiều: trang được nhắc tới tự biết trang nào nhắc mình.
+- **Cột "việc":** mỗi dòng thành phần có bốn cột `Tên vị | vai trò | liều | việc của vị trong bài`. Vai trò chỉ nhận `quân`, `thần`, `tá`, `sứ`. Bài đã đối chiếu bắt buộc có cột việc.
+- **Bỏ vị này thì sao:** `bo_vi:` mỗi dòng `Tên vị | hệ quả khi thiếu vị`.
+- **Họ bài thuốc:** bài gia giảm từ một bài gốc ghi `ho: ma-bai-goc`. Web tự tính vị thêm, vị bớt so với bài gốc và hiện trên cả hai trang.
+- **Vai trò ở các bài:** trang vị thuốc tự liệt kê vị đó làm Quân, Thần, Tá, Sứ ở bài nào — không cần viết tay.
+- **Hình ảnh để hiểu:** trường `hinh_anh` hiện trong khung riêng có nhãn "Hình ảnh để hiểu", tách khỏi nguyên văn.
+
+## Giải chữ
+
+`content/_data/chu.json` là bảng giải nghĩa từng chữ Hán: `chu`, `am`, `bo` (bộ thủ), `bo_ten`, `nghia` (nghĩa thường ngày), `nghia_y` (nghĩa trong y học), `hinh` (hình gốc của chữ, nếu chắc chắn), `bay` (bẫy nghĩa). Mỗi chữ chỉ viết một lần; mọi trang có `ten_han` tự có bảng giải chữ. Khi dựng, web báo các chữ còn thiếu. Nghĩa chữ đối chiếu với Hán Việt tự điển của Thiều Chửu.
