@@ -1,0 +1,16 @@
+{
+  "name": "medai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MEDAI — sổ cái Y học cổ truyền: công khai, miễn phí, mọi mục dẫn về danh thư gốc",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "check": "node tools/build.mjs --check && node --test \"tests/*.test.mjs\"",
+    "test": "node --test \"tests/*.test.mjs\"",
+    "serve": "node tools/serve.mjs",
+    "dev": "node tools/build.mjs && node tools/serve.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

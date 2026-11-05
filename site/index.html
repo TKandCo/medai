@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>MEDAI · Sổ cái Y học cổ truyền</title>
+  <meta name="description" content="Nguồn tra cứu Y học cổ truyền công khai, miễn phí, mọi mục đều dẫn về danh thư gốc — lấy Hải Thượng Y Tông Tâm Lĩnh làm trục.">
+  <meta name="theme-color" content="#2f5d50">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Bỏ qua đến nội dung</a>
+  <header class="topbar">
+    <a class="brand" href="#/">
+      <img src="assets/icon.svg" alt="" width="28" height="28">
+      <span>MEDAI</span>
+    </a>
+    <nav class="mainnav" aria-label="Mục chính">
+      <a href="#/muc/thuat-ngu">Thuật ngữ</a>
+      <a href="#/muc/vi-thuoc">Vị thuốc</a>
+      <a href="#/muc/bai-thuoc">Bài thuốc</a>
+      <a href="#/muc/duong-sinh">Dưỡng sinh</a>
+      <a href="#/muc/so-tay">Sổ tay</a>
+      <a href="#/kiem-chung">Kiểm chứng</a>
+      <a href="#/nguon">Danh thư</a>
+    </nav>
+    <form class="topsearch" role="search" id="topsearch">
+      <input type="search" name="q" placeholder="Tìm vị thuốc, bài thuốc, thuật ngữ…" aria-label="Tìm kiếm" autocomplete="off">
+    </form>
+  </header>
+  <main id="main" tabindex="-1">
+    <p class="loading">Đang mở sổ cái…</p>
+  </main>
+  <footer class="footer">
+    <p>MEDAI — sổ cái Y học cổ truyền, công khai và miễn phí. Thông tin để học và tự tìm hiểu; dấu hiệu nguy hiểm cần đi khám ngay (115).</p>
+    <p><a href="#/gioi-thieu">Giới thiệu &amp; cách đọc</a> · <a href="#/nguon">Danh thư</a> · <a id="repo-link" href="#/gioi-thieu">Mã nguồn</a> · Nội dung: CC BY-SA 4.0 · Mã: MIT</p>
+  </footer>
+</body>
+</html>

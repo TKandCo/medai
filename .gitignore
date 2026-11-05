@@ -1,0 +1,12 @@
+# Dữ liệu do tools/build.mjs tạo — GitHub Actions tự dựng lại
+site/data/
+
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.env
+.vscode/
+.idea/
+.claude/

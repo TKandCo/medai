@@ -1,0 +1,14 @@
+{
+  "name": "MEDAI · Sổ cái Y học cổ truyền",
+  "short_name": "MEDAI",
+  "description": "Nguồn tra cứu Y học cổ truyền công khai, miễn phí, mọi mục đều dẫn về danh thư gốc.",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbfaf6",
+  "theme_color": "#2f5d50",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

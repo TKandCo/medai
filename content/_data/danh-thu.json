@@ -1,0 +1,87 @@
+[
+  {
+    "ten": "Hải Thượng Y Tông Tâm Lĩnh",
+    "ten_han": "海上醫宗心領",
+    "tac_gia": "Lê Hữu Trác (Hải Thượng Lãn Ông, 1720–1791)",
+    "vong": "Lõi",
+    "ban_so_hoa": [
+      { "ten": "Thư viện số Hán Nôm — quyển 6", "url": "https://chunom.net/Thu-vien-so-Han-Nom/Tan-thuyen-Hai-Thuong-y-tong-tam-linh-toan-trat-(q06)-512.html" },
+      { "ten": "Thư viện số Hán Nôm — quyển 44", "url": "https://chunom.net/Thu-vien-so-Han-Nom/Tan-thuyen-Hai-Thuong-y-tong-tam-linh-toan-trat-(q44)-534.html" }
+    ],
+    "ghi_chu": "Bản khắc chùa Đồng Nhân, 1885; thư viện số ghi thiếu quyển 15, 16, 19–24. Bản dịch quốc ngữ (NXB Y học) còn bản quyền — chỉ tham khảo."
+  },
+  {
+    "ten": "Nam dược thần hiệu",
+    "ten_han": "南藥神效",
+    "tac_gia": "Tuệ Tĩnh",
+    "vong": "Danh thư Việt Nam",
+    "ban_so_hoa": [
+      { "ten": "Thư viện số Hán Nôm (Nom Foundation)", "url": "https://lib.nomfoundation.org/collection/1/volume/510" }
+    ],
+    "ghi_chu": "Bản của Thư viện Quốc gia, thiếu quyển 1–9."
+  },
+  {
+    "ten": "Hồng Nghĩa giác tư y thư",
+    "ten_han": "洪義覺斯醫書",
+    "tac_gia": "Tuệ Tĩnh",
+    "vong": "Danh thư Việt Nam",
+    "ban_so_hoa": [],
+    "ghi_chu": "Chưa tìm thấy bản số hóa miễn phí."
+  },
+  {
+    "ten": "Hoàng Đế Nội Kinh (Tố Vấn, Linh Khu)",
+    "ten_han": "黃帝內經",
+    "tac_gia": "Khuyết danh (Chiến Quốc – Tây Hán)",
+    "vong": "Kinh điển",
+    "ban_so_hoa": [
+      { "ten": "ctext.org", "url": "https://ctext.org/huangdi-neijing/zh" }
+    ],
+    "ghi_chu": "Nguyên văn Hán."
+  },
+  {
+    "ten": "Thương Hàn Luận",
+    "ten_han": "傷寒論",
+    "tac_gia": "Trương Trọng Cảnh",
+    "vong": "Kinh điển",
+    "ban_so_hoa": [
+      { "ten": "ctext.org — mục Y học", "url": "https://ctext.org/chinese-medicine/zh" }
+    ],
+    "ghi_chu": "Nguyên văn Hán."
+  },
+  {
+    "ten": "Bản Thảo Cương Mục",
+    "ten_han": "本草綱目",
+    "tac_gia": "Lý Thời Trân",
+    "vong": "Kinh điển",
+    "ban_so_hoa": [
+      { "ten": "Wikisource tiếng Trung", "url": "https://zh.wikisource.org/wiki/%E6%9C%AC%E8%8D%89%E7%B6%B1%E7%9B%AE" }
+    ],
+    "ghi_chu": "Trang tự ghi còn nhiều lỗi, cần so với bản in."
+  },
+  {
+    "ten": "Cảnh Nhạc Toàn Thư",
+    "ten_han": "景岳全書",
+    "tac_gia": "Trương Cảnh Nhạc",
+    "vong": "Kinh điển",
+    "ban_so_hoa": [],
+    "ghi_chu": "Lãn Ông chịu ảnh hưởng sâu. Chưa tìm thấy bản miễn phí."
+  },
+  {
+    "ten": "Phùng Thị Cẩm Nang",
+    "ten_han": "馮氏錦囊秘錄",
+    "tac_gia": "Phùng Triệu Trương",
+    "vong": "Kinh điển",
+    "ban_so_hoa": [],
+    "ghi_chu": "Lãn Ông chịu ảnh hưởng sâu. Chưa tìm thấy bản miễn phí."
+  },
+  {
+    "ten": "ICD-11 Chương 26 — Y học cổ truyền",
+    "ten_han": "",
+    "tac_gia": "Tổ chức Y tế Thế giới",
+    "vong": "Chuẩn quốc tế",
+    "ban_so_hoa": [
+      { "ten": "Trình duyệt ICD-11", "url": "https://icd.who.int/browse11/l-m/en" }
+    ],
+    "ghi_chu": "Dùng gắn mã quốc tế cho chứng bệnh."
+  }
+]

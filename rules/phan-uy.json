@@ -1,0 +1,27 @@
+{
+  "mo_ta": "Thập bát phản (18 vị tương phản) và Thập cửu úy (19 vị tương úy) theo các bài ca truyền thống. Mỗi nhóm 'phan' nghĩa là vị chính phản với từng vị trong 'ky'.",
+  "trang_thai": "nhap",
+  "nguon": [
+    "Thập bát phản ca (Trương Tử Hòa, đời Kim) — cần đối chiếu trang",
+    "Thập cửu úy ca (Lưu Thuần, đời Minh) — cần đối chiếu trang"
+  ],
+  "phan": [
+    { "vi": "Cam thảo", "ky": ["Cam toại", "Đại kích", "Nguyên hoa", "Hải tảo"] },
+    { "vi": "Ô đầu", "ky": ["Bán hạ", "Qua lâu", "Bối mẫu", "Bạch liễm", "Bạch cập"] },
+    { "vi": "Phụ tử", "ky": ["Bán hạ", "Qua lâu", "Bối mẫu", "Bạch liễm", "Bạch cập"] },
+    { "vi": "Lê lô", "ky": ["Nhân sâm", "Sa sâm", "Đan sâm", "Huyền sâm", "Khổ sâm", "Tế tân", "Thược dược", "Bạch thược", "Xích thược"] }
+  ],
+  "uy": [
+    ["Lưu hoàng", "Phác tiêu"],
+    ["Thủy ngân", "Phê sương"],
+    ["Lang độc", "Mật đà tăng"],
+    ["Ba đậu", "Khiên ngưu"],
+    ["Đinh hương", "Uất kim"],
+    ["Xuyên ô", "Tê giác"],
+    ["Thảo ô", "Tê giác"],
+    ["Nha tiêu", "Tam lăng"],
+    ["Quan quế", "Xích thạch chi"],
+    ["Nhục quế", "Xích thạch chi"],
+    ["Nhân sâm", "Ngũ linh chi"]
+  ]
+}
