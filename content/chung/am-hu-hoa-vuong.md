@@ -2,6 +2,7 @@
 ten: Âm hư hỏa vượng
 ten_han: 陰虛火旺
 tom_tat: Phần nước thiếu nên lửa trong người bốc lên — nóng do thiếu nước, không phải do lửa thật quá to.
+nhom: Âm dương, hàn nhiệt
 o_dau: Thường ở Thận, có thể kèm Tâm, Phế, Can
 cai_gi: Âm (thiếu) · Hỏa (bốc lên)
 the_nao: Hư (gốc) · Vượng (ngọn)

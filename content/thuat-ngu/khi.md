@@ -2,6 +2,7 @@
 ten: Khí
 ten_han: 氣
 tom_tat: Sức vận hành của cơ thể — thứ thúc đẩy, sưởi ấm, bảo vệ và giữ gìn mọi hoạt động sống.
+nhom: Khí, huyết, tân dịch
 hinh_anh: Hơi bốc lên từ nồi cơm: vô hình nhưng có sức, làm vung nồi chuyển động.
 trang_thai: nhap
 lien_quan: [huyet, tan-dich, ty, phe, than]

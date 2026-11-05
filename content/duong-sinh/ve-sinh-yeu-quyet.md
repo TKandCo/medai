@@ -2,6 +2,7 @@
 ten: Vệ sinh yếu quyết
 ten_han: 衛生要訣
 tom_tat: Tập sách về giữ gìn sức khỏe trong Hải Thượng Y Tông Tâm Lĩnh — nền của phần Dưỡng sinh trong MEDAI.
+nhom: Nền tảng dưỡng sinh
 muc_an_toan: xanh
 trang_thai: nhap
 lien_quan: [ty-hu]

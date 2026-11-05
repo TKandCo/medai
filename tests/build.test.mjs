@@ -100,3 +100,27 @@ test('Vai trò sai chính tả bị chặn', () => {
   rmSync(dir, { recursive: true, force: true });
   assert.ok(errors.some((e) => e.includes('quân, thần, tá hoặc sứ')));
 });
+
+test('Bộ lọc: gom tính và vị của vị thuốc', async () => {
+  const { tinhGroup, viList } = await import('../tools/build.mjs');
+  assert.equal(tinhGroup('Hơi ôn'), 'Ấm (ôn)');
+  assert.equal(tinhGroup('Đại nhiệt'), 'Nóng (nhiệt)');
+  assert.equal(tinhGroup('Hơi hàn'), 'Mát (lương)');
+  assert.equal(tinhGroup('Hàn'), 'Lạnh (hàn)');
+  assert.deepEqual(viList('Ngọt (cam), hơi đắng'), ['Ngọt', 'Đắng']);
+});
+
+test('Trang bệnh: có thể bệnh, liên kết tới bài đã có, và bắt buộc có dấu hiệu cấp cứu', () => {
+  const { db } = build({ write: false, log: quiet });
+  const thp = db.entries.find((e) => e.id === 'tang-huyet-ap');
+  assert.ok(thp.cap_cuu.length > 0);
+  assert.ok(thp.the_benh.some((t) => t.bai.some((b) => b.id === 'bat-vi-hoan')));
+  assert.ok(db.entries.every((e) => e.nhom), 'mọi trang đều có nhóm');
+
+  const dir = tempProject();
+  mkdirSync(join(dir, 'content', 'benh'), { recursive: true });
+  writeFileSync(join(dir, 'content', 'benh', 'thu.md'), '---\nten: Thử\ntom_tat: Thử\nyhct: Thử\nnhom: Thử\n---\n');
+  const { errors } = build({ root: dir, write: false, log: quiet });
+  rmSync(dir, { recursive: true, force: true });
+  assert.ok(errors.some((e) => e.includes('"cap_cuu"')));
+});

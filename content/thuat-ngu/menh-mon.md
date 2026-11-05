@@ -3,6 +3,7 @@ ten: Mệnh môn
 ten_han: 命門
 ten_khac: [Ổ rồng]
 tom_tat: "Cửa của sinh mệnh" — nơi chứa lửa gốc của cơ thể; các y gia xưa đặt nó ở những chỗ khác nhau.
+nhom: Tạng phủ
 hinh_anh: Ổ rồng ở giữa hai quả Thận: ổ ấm thì rồng nằm yên, ổ lạnh thì rồng bay lên.
 trang_thai: nhap
 lien_quan: [than, hoa-menh-mon-hoa-bach-khieu, long-hoa-bay-len, am-duong]

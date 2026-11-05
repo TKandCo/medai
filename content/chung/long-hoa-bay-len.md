@@ -3,6 +3,7 @@ ten: Long hỏa bay lên
 ten_han: 火不歸元
 ten_khac: [Hỏa bất quy nguyên, Rồng bay khỏi ổ]
 tom_tat: Ổ ở Thận quá lạnh, long hỏa không có chỗ nương thân mà bay lên — "trên nhiệt dưới hàn".
+nhom: Thận
 o_dau: Thận (Mệnh môn)
 cai_gi: Hỏa (long hỏa)
 the_nao: Không về được gốc (bất quy nguyên)

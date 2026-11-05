@@ -2,6 +2,7 @@
 ten: Ôn bổ Thận dương
 ten_han: 溫補腎陽
 tom_tat: Sưởi ấm và bồi bổ lửa của Thận (Mệnh môn hỏa).
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Thêm củi cho bếp lửa đang tàn dưới nồi nước nguội.
 dong_tu: [Ôn (sưởi ấm), Bổ (bù vào chỗ thiếu)]
 doi_tuong: Thận dương · Mệnh môn hỏa

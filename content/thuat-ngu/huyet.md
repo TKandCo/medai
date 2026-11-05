@@ -2,6 +2,7 @@
 ten: Huyết
 ten_han: 血
 tom_tat: Máu và phần nuôi dưỡng của cơ thể — được Tỳ sinh ra, Tâm đẩy đi, Can cất giữ.
+nhom: Khí, huyết, tân dịch
 hinh_anh: Dòng nước tưới cho cả khu vườn: đủ nước thì cây tươi, thiếu nước thì lá úa.
 trang_thai: nhap
 lien_quan: [khi, tam, can, ty, huyet-hu]

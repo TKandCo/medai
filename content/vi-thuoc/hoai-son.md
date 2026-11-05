@@ -5,6 +5,7 @@ ten_khac: [Sơn dược, Củ mài]
 ten_khoa_hoc: Dioscorea persimilis Prain et Burkill
 bo_phan_dung: Củ (thân rễ)
 tom_tat: Vị ngọt, tính bình; bổ Tỳ, Phế, Thận cùng lúc, nhẹ nhàng, dùng được như thực phẩm.
+nhom: Bổ khí
 tinh: Bình
 vi: Ngọt
 quy_kinh: [Tỳ, Phế, Thận]

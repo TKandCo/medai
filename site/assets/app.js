@@ -3,6 +3,7 @@
 
 import { normalizeText, buildRuleIndex, checkHerbs, splitHerbList, slugify } from './core.js';
 import { pageLearn, pageTongue, mountTongue, pageThuyHoa, mountThuyHoa, pageDragon, mountDragon } from './hoc.js';
+import { pageQuiz, mountQuiz } from './on-luyen.js';
 
 let $main = document.getElementById('main');
 let DB = null;
@@ -98,28 +99,57 @@ function search(q) {
 }
 
 // ---------- Các trang ----------
+const count = (loai) => DB.entries.filter((e) => e.loai === loai).length;
+const SECTIONS = [
+  ['chung', 'Chứng bệnh', 'Cách Đông y gọi tên tình trạng cơ thể: Thận âm hư, Tỳ khí hư…'],
+  ['phep-tri', 'Phép trị', 'Hướng chữa cho từng chứng: tư âm, bổ khí, thanh nhiệt…'],
+  ['bai-thuoc', 'Bài thuốc', 'Đội hình Quân – Thần – Tá – Sứ, họ bài thuốc, gia giảm'],
+  ['vi-thuoc', 'Vị thuốc', 'Tính, vị, quy kinh, độc tính, vai trò ở các bài'],
+  ['thuat-ngu', 'Thuật ngữ', 'Âm dương, Ngũ hành, tạng phủ — giải 3 tầng'],
+  ['duong-sinh', 'Dưỡng sinh', 'Giữ gìn sức khỏe hằng ngày theo Vệ sinh yếu quyết'],
+];
+
 function pageHome() {
   setTitle('');
-  const counts = Object.entries(DB.types).map(([k, label]) => {
-    const n = DB.entries.filter((e) => e.loai === k).length;
-    return `<a class="stat" href="#/muc/${k}"><strong>${n}</strong><span>${esc(label)}</span></a>`;
-  }).join('');
-  return `<section class="hero">
-      <h1>Sổ cái Y học cổ truyền</h1>
-      <p class="lead">Mỗi dòng trong sổ đều dẫn về danh thư gốc — lấy <em>Hải Thượng Y Tông Tâm Lĩnh</em> của Hải Thượng Lãn Ông Lê Hữu Trác làm trục. Đọc để hiểu thân thể, hiểu thuốc, rồi dùng thuốc có căn cứ.</p>
+  const benh = DB.entries.filter((e) => e.loai === 'benh').sort((a, b) => a.ten.localeCompare(b.ten, 'vi'));
+  const suggestions = ['cao huyết áp', 'tỳ hư', 'chóng mặt', 'Lục vị', '四君子湯', 'ho đờm'];
+  return `<section class="home-hero">
+      <h1>Hiểu thân thể, hiểu thuốc,<br>dùng thuốc có căn cứ</h1>
+      <p class="lead">Sổ cái Y học cổ truyền: mỗi dòng đều dẫn về danh thư gốc, lấy <em>Hải Thượng Y Tông Tâm Lĩnh</em> của Hải Thượng Lãn Ông làm trục.</p>
       <form class="bigsearch" id="bigsearch" role="search">
-        <input type="search" name="q" placeholder="Ví dụ: cam thảo, tỳ hư, 四君子湯, đau dạ dày" aria-label="Tìm trong sổ cái" autocomplete="off">
+        <input type="search" name="q" placeholder="Bạn đang tìm gì? Ví dụ: cao huyết áp, cam thảo, tỳ hư" aria-label="Tìm trong sổ cái" autocomplete="off">
         <button type="submit">Tìm</button>
       </form>
+      <p class="suggest">Thử: ${suggestions.map((s) => `<a href="#/tim?q=${encodeURIComponent(s)}">${esc(s)}</a>`).join('')}</p>
     </section>
-    <section class="stats">${counts}</section>
-    <section class="tiles">
-      <a class="tile" href="#/hoc"><h2>Học bằng hình</h2><p>Nồi nước – Bếp lửa để hiểu hàn nhiệt hư thực; Lưỡi tự dựng để hiểu thiệt chẩn.</p></a>
-      <a class="tile" href="#/kiem-chung"><h2>Kiểm chứng lời đồn</h2><p>Dán một bài thuốc nghe được trên mạng. MEDAI đối chiếu với Thập bát phản, Thập cửu úy, thai kỵ và vị có độc.</p></a>
-      <a class="tile" href="#/muc/thuat-ngu"><h2>Học từ gốc</h2><p>Mỗi thuật ngữ có 3 tầng giải thích: bình dân, học viên, chuyên sâu kèm nguyên văn.</p></a>
-      <a class="tile" href="#/nguon"><h2>Danh thư</h2><p>Các bộ sách làm nền cho sổ cái và nơi đọc bản số hóa miễn phí.</p></a>
+
+    <section class="home-block">
+      <div class="block-head"><h2>Bệnh thường gặp</h2><a href="#/muc/benh">Xem tất cả ${benh.length} →</a></div>
+      <p class="muted">Tên bệnh quen thuộc ngày nay, Đông y gọi là gì, chia thể ra sao, khi nào phải đi khám ngay.</p>
+      <div class="disease-grid">${benh.map((e) => `<a class="disease" href="#/m/${esc(e.id)}">
+        <span class="disease-name">${esc(e.ten)}</span>
+        <span class="disease-yhct">${esc(stripTags(e.yhct).split(' — ')[0])}</span>
+        ${e.muc_an_toan === 'do' ? '<span class="pill pill-do">Cần cấp cứu khi có dấu hiệu</span>' : ''}
+      </a>`).join('')}</div>
     </section>
-    <section class="levels">
+
+    <section class="home-block">
+      <div class="block-head"><h2>Tra cứu sổ cái</h2></div>
+      <div class="section-grid">${SECTIONS.map(([k, t, d]) => `<a class="section-card" href="#/muc/${k}">
+        <span class="section-count">${count(k)}</span><span class="section-title">${esc(t)}</span><span class="section-desc">${esc(d)}</span></a>`).join('')}</div>
+    </section>
+
+    <section class="home-block">
+      <div class="block-head"><h2>Học và ôn luyện</h2></div>
+      <div class="tiles">
+        <a class="tile" href="#/hoc"><h3>Học bằng hình</h3><p>Nồi nước – Bếp lửa, Rồng về ổ, Lưỡi tự dựng.</p></a>
+        <a class="tile" href="#/on-luyen"><h3>Ôn luyện</h3><p>Trò ghép đôi, thẻ ghi nhớ, câu đố — rèn từ Hán Việt và kiến thức Đông y.</p></a>
+        <a class="tile" href="#/hoc/ngu-phap"><h3>Đọc tên chứng</h3><p>Ghép tên theo khuôn Ở đâu + Cái gì + Thế nào.</p></a>
+        <a class="tile" href="#/kiem-chung"><h3>Kiểm chứng lời đồn</h3><p>Đối chiếu một bài thuốc với các quy tắc cấm kỵ cổ điển.</p></a>
+      </div>
+    </section>
+
+    <section class="home-block levels">
       <h2>Ba mức an toàn</h2>
       <ul>
         <li>${badge(SAFETY.xanh.label, 'xanh')} ${esc(SAFETY.xanh.note)}</li>
@@ -129,14 +159,145 @@ function pageHome() {
     </section>`;
 }
 
+const stripTags = (html) => String(html ?? '').replace(/<[^>]+>/g, '');
+
+// Bộ lọc của từng loại trang: [khóa, tên hiển thị, cách lấy giá trị]
+const FACETS = {
+  'vi-thuoc': [['nhom', 'Nhóm công năng'], ['tinh', 'Tính'], ['vi', 'Vị'], ['quy_kinh', 'Quy kinh'], ['an_toan', 'Mức an toàn']],
+  'bai-thuoc': [['nhom', 'Nhóm'], ['an_toan', 'Mức an toàn']],
+  'phep-tri': [['nhom', 'Bát pháp']],
+  chung: [['nhom', 'Tạng phủ']],
+  benh: [['nhom', 'Hệ cơ quan'], ['an_toan', 'Mức độ']],
+  'thuat-ngu': [['nhom', 'Nhóm']],
+  'duong-sinh': [['nhom', 'Nhóm']],
+  'so-tay': [['nhom', 'Chủ đề']],
+};
+const LIST_INTRO = {
+  benh: 'Tên bệnh quen thuộc ngày nay và cách Đông y nhìn nhận. Mỗi trang ghi rõ khi nào phải đi khám ngay.',
+  chung: 'Chứng là cách Đông y gọi tên tình trạng của cơ thể. Tên chứng đọc theo khuôn Ở đâu + Cái gì + Thế nào.',
+  'phep-tri': 'Phép trị là hướng chữa cho từng chứng, xếp theo bát pháp của Đông y.',
+  'bai-thuoc': 'Mỗi bài thuốc là một đội hình Quân – Thần – Tá – Sứ. Bài gia giảm từ bài gốc được nối thành họ.',
+  'vi-thuoc': 'Lọc theo nhóm công năng, tính, vị, quy kinh để tìm và so sánh các vị thuốc.',
+  'thuat-ngu': 'Các khái niệm nền tảng, mỗi khái niệm giải theo 3 tầng: hiểu nhanh, người học, chuyên sâu.',
+};
+// Thứ tự hiển thị có ý nghĩa (lạnh → nóng, an toàn → nguy hiểm) thay vì theo chữ cái
+const FACET_ORDER = {
+  tinh: ['Lạnh (hàn)', 'Mát (lương)', 'Bình', 'Ấm (ôn)', 'Nóng (nhiệt)'],
+  an_toan: ['Tự áp dụng được', 'Cần xác định đúng thể bệnh', 'Không tự dùng'],
+  quy_kinh: ['Tâm', 'Can', 'Tỳ', 'Phế', 'Thận', 'Vị', 'Đởm', 'Đại trường', 'Bàng quang', 'Tâm bào'],
+};
+function facetValues(e, key) {
+  if (key === 'nhom') return [e.nhom || 'Khác'];
+  if (key === 'an_toan') return e.muc_an_toan ? [SAFETY[e.muc_an_toan].label] : [];
+  return e.facet?.[key] ?? [];
+}
+function rowMeta(e) {
+  if (e.loai === 'vi-thuoc') return [e.facet.tinh?.[0], (e.facet.vi ?? []).join(', '), (e.facet.quy_kinh ?? []).join(', ')].filter(Boolean).join(' · ');
+  if (e.loai === 'bai-thuoc') {
+    const quan = e.thanh_phan.filter((x) => x.vai === 'quân').map((x) => x.ten).join(', ');
+    return `${e.thanh_phan.length} vị${quan ? ` · Quân: ${quan}` : ''}`;
+  }
+  if (e.loai === 'chung' || e.loai === 'phep-tri') return (e.refs.bai_thuoc ?? []).map((id) => BY_ID.get(id)?.ten).filter(Boolean).join(', ');
+  if (e.loai === 'benh') return `Đông y: ${stripTags(e.yhct).split(' — ')[0]}`;
+  return '';
+}
+function rowHtml(e) {
+  const safety = e.muc_an_toan ? badge(SAFETY[e.muc_an_toan].label, e.muc_an_toan) : '';
+  const meta = rowMeta(e);
+  return `<li><a class="row" href="#/m/${esc(e.id)}">
+    <span class="row-title">${esc(e.ten)}${e.ten_han ? ` <span class="han">${esc(e.ten_han)}</span>` : ''}</span>
+    <span class="row-sum">${esc(e.tom_tat)}</span>
+    ${meta ? `<span class="row-meta">${esc(meta)}</span>` : ''}
+    <span class="row-badges">${safety}${e.trang_thai === 'nhap' ? badge('Bản nháp', 'nhap') : ''}</span>
+  </a></li>`;
+}
+
 function pageList(loai) {
   const label = DB.types[loai];
   if (!label) return pageNotFound();
   setTitle(label);
-  const items = DB.entries.filter((e) => e.loai === loai).sort((a, b) => a.ten.localeCompare(b.ten, 'vi'));
-  return `<h1>${esc(label)}</h1>
-    <p class="muted">${items.length} mục. Mục mang nhãn “Bản nháp” chưa đối chiếu xong với trang gốc.</p>
-    <div class="cards">${items.map(entryCard).join('') || '<p>Chưa có mục nào.</p>'}</div>`;
+  const items = DB.entries.filter((e) => e.loai === loai);
+  const facets = (FACETS[loai] ?? []).map(([key, title]) => {
+    const order = FACET_ORDER[key];
+    const rank = (v) => (order ? (order.indexOf(v) + 1 || 99) : 0);
+    const values = [...new Set(items.flatMap((e) => facetValues(e, key)))].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, 'vi'));
+    return values.length > 1 ? `<div class="facet" data-facet="${esc(key)}"><span class="facet-title">${esc(title)}</span>
+      <div class="chips">${values.map((v) => `<button type="button" class="chip" data-value="${esc(v)}" aria-pressed="false">${esc(v)}</button>`).join('')}</div></div>` : '';
+  }).join('');
+  return `<header class="list-head">
+      <h1>${esc(label)}</h1>
+      <p class="lead">${esc(LIST_INTRO[loai] ?? '')}</p>
+    </header>
+    <div class="list-tools">
+      <input type="search" id="list-filter" placeholder="Lọc nhanh trong ${esc(label.toLowerCase())}…" aria-label="Lọc trong danh sách" autocomplete="off">
+      ${facets ? `<details class="facets"${window.innerWidth > 860 ? ' open' : ''}><summary>Bộ lọc</summary>${facets}<button type="button" class="link-btn" id="clear-filters">Xóa bộ lọc</button></details>` : ''}
+    </div>
+    <p class="list-count muted" id="list-count"></p>
+    <nav class="group-index" id="group-index" aria-label="Các nhóm"></nav>
+    <div id="list-results"></div>`;
+}
+
+function mountList(root, params, loai) {
+  const items = DB.entries.filter((e) => e.loai === loai);
+  const chosen = {};
+  const input = root.querySelector('#list-filter');
+  const render = () => {
+    const q = normalizeText(input.value);
+    const shown = items.filter((e) => {
+      if (q && !normalizeText([e.ten, e.ten_han, ...e.ten_khac, e.tom_tat, e.nhom].join(' ')).includes(q)) return false;
+      return Object.entries(chosen).every(([k, set]) => !set.size || facetValues(e, k).some((v) => set.has(v)));
+    });
+    const groups = new Map();
+    for (const e of shown.sort((a, b) => a.ten.localeCompare(b.ten, 'vi'))) {
+      const g = e.nhom || 'Khác';
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(e);
+    }
+    const names = [...groups.keys()].sort((a, b) => a.localeCompare(b, 'vi'));
+    root.querySelector('#list-count').textContent = `${shown.length} / ${items.length} mục${shown.length < items.length ? ' khớp bộ lọc' : ''}`;
+    root.querySelector('#group-index').innerHTML = names.length > 1 ? names.map((g, i) => `<a href="#g-${i}" data-jump="g-${i}">${esc(g)} <span>${groups.get(g).length}</span></a>`).join('') : '';
+    root.querySelector('#list-results').innerHTML = names.length
+      ? names.map((g, i) => `<section class="group"><h2 id="g-${i}">${esc(g)} <span class="muted">${groups.get(g).length}</span></h2><ul class="rows">${groups.get(g).map(rowHtml).join('')}</ul></section>`).join('')
+      : '<p class="empty">Không có mục nào khớp. Thử bỏ bớt bộ lọc.</p>';
+  };
+  input.addEventListener('input', render);
+  root.addEventListener('click', (ev) => {
+    const jump = ev.target.closest('[data-jump]');
+    if (jump) { ev.preventDefault(); root.querySelector(`#${jump.dataset.jump}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    if (ev.target.id === 'clear-filters') {
+      for (const k of Object.keys(chosen)) delete chosen[k];
+      root.querySelectorAll('.facet .chip').forEach((c) => c.setAttribute('aria-pressed', 'false'));
+      input.value = '';
+      render();
+      return;
+    }
+    const chip = ev.target.closest('.facet .chip');
+    if (!chip) return;
+    const key = chip.closest('[data-facet]').dataset.facet;
+    const set = (chosen[key] ??= new Set());
+    const on = chip.getAttribute('aria-pressed') !== 'true';
+    chip.setAttribute('aria-pressed', String(on));
+    if (on) set.add(chip.dataset.value); else set.delete(chip.dataset.value);
+    render();
+  });
+  render();
+}
+
+function benhHtml(e) {
+  if (e.loai !== 'benh') return '';
+  const cell = (r) => (r?.id ? `<a href="#/m/${esc(r.id)}">${esc(r.ten)}</a>` : esc(r?.ten ?? ''));
+  return `
+    ${e.cap_cuu.length ? `<section class="emergency"><h2>Đi khám hoặc gọi 115 ngay khi</h2><ul>${e.cap_cuu.map((x) => `<li>${x}</li>`).join('')}</ul></section>` : ''}
+    <p class="yhct-line"><strong>Đông y gọi là:</strong> ${e.yhct}</p>
+    ${e.the_benh.length ? `<h2>Các thể thường gặp</h2>
+      <p class="muted small">Cùng một bệnh, mỗi người một thể; mỗi thể một cách chữa. Bấm vào tên chứng, phép trị, bài thuốc đã có trong sổ cái để đọc thêm.</p>
+      <div class="the-list">${e.the_benh.map((t) => `<article class="the-card">
+        <h3>${cell(t)}</h3>
+        <p>${t.bieu_hien}</p>
+        <dl>${t.phep ? `<dt>Phép trị</dt><dd>${cell(t.phep)}</dd>` : ''}${t.bai.length ? `<dt>Bài thường dùng</dt><dd>${t.bai.map(cell).join(', ')}</dd>` : ''}</dl>
+      </article>`).join('')}</div>` : ''}
+    ${e.duong_sinh.length ? `<h2>Dưỡng sinh</h2><ul class="tips">${e.duong_sinh.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
+    ${e.phoi_hop ? `<div class="notice notice-vang"><strong>Đang dùng thuốc khác?</strong> ${e.phoi_hop}</div>` : ''}`;
 }
 
 function pageSearch(q) {
@@ -144,7 +305,7 @@ function pageSearch(q) {
   const results = search(q);
   return `<h1>Kết quả cho “${esc(q)}”</h1>
     <p class="muted">${results.length} mục. Gõ không dấu hoặc chữ Hán đều được.</p>
-    <div class="cards">${results.map(entryCard).join('') || '<p>Chưa có trong sổ cái. Có thể đề xuất thêm qua GitHub.</p>'}</div>`;
+    ${results.length ? `<ul class="rows">${results.map((e) => rowHtml(e).replace('<span class="row-title">', `<span class="row-type">${esc(DB.types[e.loai])}</span><span class="row-title">`)).join('')}</ul>` : '<p class="empty">Chưa có trong sổ cái. Có thể đề xuất thêm qua GitHub.</p>'}`;
 }
 
 function warningsHtml(cb) {
@@ -268,7 +429,8 @@ function pageEntry(id) {
   setTitle(e.ten);
   const repo = DB.site.repo;
   const st = STATUS[e.trang_thai];
-  const safety = e.muc_an_toan ? SAFETY[e.muc_an_toan] : null;
+  // Trang bệnh dùng khung cấp cứu riêng thay cho nhãn mức an toàn của thuốc
+  const safety = e.muc_an_toan && e.loai !== 'benh' ? SAFETY[e.muc_an_toan] : null;
   const warn = warningsHtml(e.canh_bao);
   const kyVoi = e.ky_voi?.length
     ? `<h2>Kỵ phối hợp với</h2><ul>${e.ky_voi.map((k) => `<li>${BY_ID.has(k.id) ? `<a href="#/m/${esc(k.id)}">${esc(k.ten)}</a>` : esc(k.ten)} (${k.loai === 'phan' ? 'tương phản' : 'tương úy'})</li>`).join('')}</ul>`
@@ -283,6 +445,7 @@ function pageEntry(id) {
     ${e.trang_thai === 'nhap' ? `<div class="notice notice-nhap">${esc(st.note)}</div>` : ''}
     ${safety && e.muc_an_toan !== 'xanh' ? `<div class="notice notice-${e.muc_an_toan}">${esc(safety.note)}</div>` : ''}
     ${warn ? `<div class="notice notice-do"><strong>Cảnh báo theo quy tắc cổ điển</strong>${warn}</div>` : ''}
+    ${benhHtml(e)}
     ${chainHtml(e)}
     ${giaiChuHtml(e)}
     ${e.hinh_anh ? `<div class="picture-note"><span class="picture-tag">Hình ảnh để hiểu</span><p>${e.hinh_anh}</p></div>` : ''}
@@ -487,7 +650,8 @@ function route() {
   else if (parts[0] === 'chu') html = pageChu(parts[1] ?? '');
   else if (parts[0] === 'hoc' && parts[1] === 'rong') { setTitle('Rồng về ổ'); html = pageDragon(); mount = mountDragon; }
   else if (parts[0] === 'hoc') { setTitle('Học bằng hình'); html = pageLearn(); }
-  else if (parts[0] === 'muc') html = pageList(parts[1]);
+  else if (parts[0] === 'muc') { html = pageList(parts[1]); if (DB.types[parts[1]]) mount = (root, p) => mountList(root, p, parts[1]); }
+  else if (parts[0] === 'on-luyen') { setTitle('Ôn luyện'); html = pageQuiz(); mount = (root) => mountQuiz(root, quizCtx()); }
   else if (parts[0] === 'm') html = pageEntry(parts[1]);
   else if (parts[0] === 'tim') html = pageSearch(params.get('q') ?? '');
   else if (parts[0] === 'kiem-chung') html = pageCheck();
@@ -500,7 +664,8 @@ function route() {
   $main = fresh;
   $main.innerHTML = html;
   if (mount) mount($main, params);
-  document.querySelectorAll('.mainnav a').forEach((a) => a.toggleAttribute('aria-current', location.hash.startsWith(a.getAttribute('href'))));
+  markActiveNav();
+  closeMenus(true);
   window.scrollTo(0, 0);
   $main.focus({ preventScroll: true });
 }
@@ -530,6 +695,46 @@ document.addEventListener('click', (ev) => {
   store('medai-tang', i);
 });
 
+// ---------- Menu ----------
+function markActiveNav() {
+  const hash = location.hash || '#/';
+  const loai = hash.match(/^#\/m\/([^/?]+)/) && BY_ID.get(decodeURIComponent(hash.split('/')[2]))?.loai;
+  const current = loai ? `#/muc/${loai}` : hash.split('?')[0];
+  document.querySelectorAll('.mainnav a').forEach((a) => {
+    const href = a.getAttribute('href');
+    a.toggleAttribute('aria-current', href !== '#/' && (current === href || current.startsWith(`${href}/`)));
+  });
+  document.querySelectorAll('.nav-group').forEach((g) => g.querySelector('.nav-btn').classList.toggle('active', !!g.querySelector('a[aria-current]')));
+}
+function closeMenus(all = false) {
+  document.querySelectorAll('.nav-group.open').forEach((g) => { g.classList.remove('open'); g.querySelector('.nav-btn').setAttribute('aria-expanded', 'false'); });
+  if (all) {
+    document.getElementById('mainnav').classList.remove('open');
+    document.getElementById('menu-toggle').setAttribute('aria-expanded', 'false');
+  }
+}
+document.addEventListener('click', (ev) => {
+  const toggle = ev.target.closest('#menu-toggle');
+  if (toggle) {
+    const open = document.getElementById('mainnav').classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+    return;
+  }
+  const btn = ev.target.closest('.nav-btn');
+  if (btn) {
+    const g = btn.closest('.nav-group');
+    const willOpen = !g.classList.contains('open');
+    closeMenus();
+    g.classList.toggle('open', willOpen);
+    btn.setAttribute('aria-expanded', String(willOpen));
+    return;
+  }
+  if (!ev.target.closest('.nav-menu')) closeMenus();
+});
+document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeMenus(true); });
+
+const quizCtx = () => ({ DB, BY_ID, esc, normalizeText, store, stripTags });
+
 window.addEventListener('hashchange', route);
 
 async function init() {
@@ -548,6 +753,7 @@ async function init() {
   repoLink.href = DB.site.repo;
   repoLink.target = '_blank';
   repoLink.rel = 'noopener';
+  document.querySelectorAll('[data-count]').forEach((el) => { el.textContent = count(el.dataset.count); });
   route();
   if (location.hash.startsWith('#/kiem-chung')) {
     const t = document.getElementById('herbs');

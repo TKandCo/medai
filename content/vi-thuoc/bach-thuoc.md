@@ -5,6 +5,7 @@ ten_khac: [Thược dược trắng]
 ten_khoa_hoc: Paeonia lactiflora Pall.
 bo_phan_dung: Rễ đã cạo vỏ
 tom_tat: Vị đắng chua, hơi lạnh; dưỡng huyết, giữ âm, làm dịu Can và giảm co thắt.
+nhom: Bổ huyết
 tinh: Hơi hàn
 vi: Đắng, chua
 quy_kinh: [Can, Tỳ]

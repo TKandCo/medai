@@ -5,6 +5,7 @@ ten_khac: [Bạch linh]
 ten_khoa_hoc: Poria cocos (Schw.) Wolf
 bo_phan_dung: Nấm mọc ký sinh trên rễ thông
 tom_tat: Vị ngọt nhạt, tính bình; thấm thấp, kiện Tỳ, làm yên Tâm — nhẹ nhàng, dùng được lâu.
+nhom: Lợi thủy thẩm thấp
 tinh: Bình
 vi: Ngọt, nhạt
 quy_kinh: [Tâm, Phế, Tỳ, Thận]

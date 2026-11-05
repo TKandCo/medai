@@ -2,6 +2,7 @@
 ten: Khí huyết lưỡng hư
 ten_han: 氣血兩虛
 tom_tat: Cả sức vận hành (khí) lẫn phần nuôi dưỡng (huyết) đều thiếu — thường gặp sau ốm lâu, mất máu, sinh nở.
+nhom: Khí huyết
 o_dau: Toàn thân, gốc ở Tỳ
 cai_gi: Khí và Huyết
 the_nao: Hư (thiếu cả hai)

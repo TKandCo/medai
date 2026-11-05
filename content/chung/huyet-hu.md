@@ -2,6 +2,7 @@
 ten: Huyết hư
 ten_han: 血虛
 tom_tat: Huyết không đủ để nuôi dưỡng cơ thể — da, môi, móng nhợt, đầu óc thiếu nuôi.
+nhom: Khí huyết
 o_dau: Toàn thân, thường liên quan Tâm, Can, Tỳ
 cai_gi: Huyết (máu, phần nuôi dưỡng)
 the_nao: Hư (thiếu)

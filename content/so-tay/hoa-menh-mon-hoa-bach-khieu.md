@@ -1,6 +1,7 @@
 ---
 ten: Bàn về Hỏa Mệnh môn, Hỏa Bạch khiếu
 tom_tat: Ghi chép nghiên cứu về Mệnh môn — "ổ rồng" giữa hai quả Thận — và phép sưởi ấm ổ để long hỏa trở về.
+nhom: Thủy hỏa, Mệnh môn
 trang_thai: nhap
 lien_quan: [phu-tu]
 nguon:

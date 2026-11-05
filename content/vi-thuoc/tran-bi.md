@@ -5,6 +5,7 @@ ten_khac: [Vỏ quýt]
 ten_khoa_hoc: Citrus reticulata Blanco
 bo_phan_dung: Vỏ quả quýt chín, phơi khô để lâu năm
 tom_tat: Vị cay đắng, tính ấm; điều khí cho Tỳ Vị, làm khô thấp, tan đờm — một vị thuốc Nam dễ tìm.
+nhom: Lý khí
 tinh: Ôn
 vi: Cay, đắng
 quy_kinh: [Tỳ, Phế]

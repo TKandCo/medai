@@ -74,3 +74,16 @@ Mẫu: `templates/chung.md`, `templates/phep-tri.md`, `templates/bai-thuoc.md`.
 ## Giải chữ
 
 `content/_data/chu.json` là bảng giải nghĩa từng chữ Hán: `chu`, `am`, `bo` (bộ thủ), `bo_ten`, `nghia` (nghĩa thường ngày), `nghia_y` (nghĩa trong y học), `hinh` (hình gốc của chữ, nếu chắc chắn), `bay` (bẫy nghĩa). Mỗi chữ chỉ viết một lần; mọi trang có `ten_han` tự có bảng giải chữ. Khi dựng, web báo các chữ còn thiếu. Nghĩa chữ đối chiếu với Hán Việt tự điển của Thiều Chửu.
+
+## Bệnh thường gặp
+
+Mẫu: `templates/benh.md`. Trang bệnh nối tên bệnh hiện đại với cách Đông y gọi và chia thể.
+
+- `yhct`: tên Đông y và tạng phủ liên quan. Phần trước dấu " — " hiện trên thẻ ở trang chủ, nên giữ ngắn.
+- `cap_cuu` (**bắt buộc**): các dấu hiệu phải đi khám hoặc gọi 115 ngay — hiện trong khung đỏ ở đầu trang.
+- `the_benh`: mỗi dòng `Tên thể | biểu hiện chính | phép trị | bài thuốc (ngăn bằng dấu phẩy)`. Tên nào đã có trang trong sổ cái sẽ tự thành liên kết.
+- `duong_sinh`, `phoi_hop`: lời khuyên sinh hoạt và lưu ý khi đang dùng thuốc khác.
+
+## Nhóm (`nhom`)
+
+Mọi trang cần trường `nhom` để danh sách chia nhóm: vị thuốc theo nhóm công năng (Bổ khí, Thanh nhiệt…), bài thuốc theo nhóm (Bổ âm, Khí huyết song bổ…), phép trị theo bát pháp, chứng theo tạng phủ, bệnh theo hệ cơ quan. Viết đúng chính tả như các trang cùng nhóm đã có, để chúng gom về một chỗ. Thiếu `nhom` thì web báo cảnh báo.

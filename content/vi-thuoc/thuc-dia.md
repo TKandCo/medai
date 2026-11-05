@@ -5,6 +5,7 @@ ten_khac: [Thục địa hoàng]
 ten_khoa_hoc: Rehmannia glutinosa (Gaertn.) Libosch.
 bo_phan_dung: Rễ củ Địa hoàng đã chưng phơi nhiều lần
 tom_tat: Vị ngọt, hơi ấm; tư âm, bổ huyết, ích tinh — vị chủ lực của nhóm bổ Thận âm.
+nhom: Bổ huyết
 tinh: Hơi ôn
 vi: Ngọt
 quy_kinh: [Can, Thận]

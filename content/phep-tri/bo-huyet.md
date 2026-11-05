@@ -3,6 +3,7 @@ ten: Bổ huyết
 ten_han: 補血
 ten_khac: [Dưỡng huyết]
 tom_tat: Bù vào phần huyết đang thiếu — thường kèm cho huyết lưu thông để không đọng trệ.
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Tưới nước cho vườn khô, đồng thời khơi rãnh cho nước chảy đều.
 dong_tu: [Bổ (vá, bù vào chỗ thiếu)]
 doi_tuong: Huyết

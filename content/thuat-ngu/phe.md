@@ -2,6 +2,7 @@
 ten: Phế
 ten_han: 肺
 tom_tat: Tạng như vị quan phụ tá — chủ khí, hơi thở, và rải khí cùng tân dịch đi khắp người.
+nhom: Tạng phủ
 hinh_anh: Vị tể tướng giúp vua sắp đặt mọi việc cho có trật tự; cũng như chiếc lọng che trên cao, che chở các tạng bên dưới.
 trang_thai: nhap
 lien_quan: [khi, tan-dich, ngu-hanh, tam]
