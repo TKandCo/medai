@@ -1,6 +1,6 @@
 // Service worker: lưu sẵn khung web để dùng khi mất mạng.
 // Đổi VERSION mỗi khi sửa file trong site/assets để người dùng nhận bản mới.
-const VERSION = 'medai-v5';
+const VERSION = 'medai-v6';
 const SHELL = ['./', 'index.html', 'assets/style.css', 'assets/app.js', 'assets/core.js', 'assets/hoc.js', 'assets/on-luyen.js', 'assets/icon.svg', 'manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {

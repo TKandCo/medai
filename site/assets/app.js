@@ -143,7 +143,7 @@ function pageHome() {
       <div class="block-head"><h2>Học và ôn luyện</h2></div>
       <div class="tiles">
         <a class="tile" href="#/hoc"><h3>Học bằng hình</h3><p>Nồi nước – Bếp lửa, Rồng về ổ, Lưỡi tự dựng.</p></a>
-        <a class="tile" href="#/on-luyen"><h3>Ôn luyện</h3><p>Thẻ ghi nhớ và câu đố tự sinh từ sổ cái.</p></a>
+        <a class="tile" href="#/on-luyen"><h3>Ôn luyện</h3><p>Trò ghép đôi, thẻ ghi nhớ, câu đố — rèn từ Hán Việt và kiến thức Đông y.</p></a>
         <a class="tile" href="#/hoc/ngu-phap"><h3>Đọc tên chứng</h3><p>Ghép tên theo khuôn Ở đâu + Cái gì + Thế nào.</p></a>
         <a class="tile" href="#/kiem-chung"><h3>Kiểm chứng lời đồn</h3><p>Đối chiếu một bài thuốc với các quy tắc cấm kỵ cổ điển.</p></a>
       </div>
