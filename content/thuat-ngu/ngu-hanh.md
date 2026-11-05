@@ -2,6 +2,7 @@
 ten: Ngũ hành
 ten_han: 五行
 tom_tat: Năm loại vận động — Mộc, Hỏa, Thổ, Kim, Thủy — sinh ra nhau và kiềm chế nhau; dùng để hiểu quan hệ giữa các tạng.
+nhom: Lý luận nền tảng
 hinh_anh: Một vòng tròn năm người cầm tay nhau: mỗi người nuôi người bên cạnh và giữ chừng người cách một bước.
 trang_thai: nhap
 lien_quan: [am-duong, tam, can, ty, phe, than]

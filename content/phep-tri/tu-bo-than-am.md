@@ -2,6 +2,7 @@
 ten: Tư bổ Thận âm
 ten_han: 滋補腎陰
 tom_tat: Bồi bổ phần nước của Thận — gốc của mọi phần âm trong cơ thể.
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Châm thêm nước vào nồi trên bếp.
 dong_tu: [Tư (tưới), Bổ (bù vào chỗ thiếu)]
 doi_tuong: Thận âm

@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer">
   <title>MEDAI · Sổ cái Y học cổ truyền</title>
   <meta name="description" content="Nguồn tra cứu Y học cổ truyền công khai, miễn phí, mọi mục đều dẫn về danh thư gốc — lấy Hải Thượng Y Tông Tâm Lĩnh làm trục.">
-  <meta name="theme-color" content="#2f5d50">
+  <meta name="theme-color" content="#fffdf8">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/style.css">
@@ -15,26 +15,44 @@
 </head>
 <body>
   <a class="skip" href="#main">Bỏ qua đến nội dung</a>
-  <header class="topbar">
-    <a class="brand" href="#/">
-      <img src="assets/icon.svg" alt="" width="28" height="28">
-      <span>MEDAI</span>
-    </a>
-    <nav class="mainnav" aria-label="Mục chính">
-      <a href="#/muc/thuat-ngu">Thuật ngữ</a>
-      <a href="#/muc/chung">Chứng bệnh</a>
-      <a href="#/muc/phep-tri">Phép trị</a>
-      <a href="#/muc/bai-thuoc">Bài thuốc</a>
-      <a href="#/muc/vi-thuoc">Vị thuốc</a>
-      <a href="#/muc/duong-sinh">Dưỡng sinh</a>
-      <a href="#/muc/so-tay">Sổ tay</a>
-      <a href="#/hoc">Học bằng hình</a>
-      <a href="#/kiem-chung">Kiểm chứng</a>
-      <a href="#/nguon">Danh thư</a>
+  <header class="site-header">
+    <div class="header-row">
+      <a class="brand" href="#/">
+        <img src="assets/icon.svg" alt="" width="34" height="34">
+        <span class="brand-name">MEDAI<span class="brand-sub">Sổ cái Y học cổ truyền</span></span>
+      </a>
+      <form class="topsearch" role="search" id="topsearch">
+        <input type="search" name="q" placeholder="Tìm bệnh, vị thuốc, bài thuốc, thuật ngữ…" aria-label="Tìm kiếm" autocomplete="off">
+      </form>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mainnav">Menu</button>
+    </div>
+    <nav class="mainnav" id="mainnav" aria-label="Mục chính">
+      <a class="nav-link" href="#/muc/benh">Bệnh thường gặp</a>
+      <div class="nav-group">
+        <button type="button" class="nav-btn" aria-expanded="false">Tra cứu</button>
+        <div class="nav-menu">
+          <a href="#/muc/chung"><strong>Chứng bệnh</strong><span class="count" data-count="chung"></span><small>Thận âm hư, Tỳ khí hư… — cách Đông y gọi tên tình trạng cơ thể</small></a>
+          <a href="#/muc/phep-tri"><strong>Phép trị</strong><span class="count" data-count="phep-tri"></span><small>Tư âm giáng hỏa, Bổ huyết… — hướng chữa cho từng chứng</small></a>
+          <a href="#/muc/bai-thuoc"><strong>Bài thuốc</strong><span class="count" data-count="bai-thuoc"></span><small>Đội hình Quân Thần Tá Sứ, họ bài thuốc, gia giảm</small></a>
+          <a href="#/muc/vi-thuoc"><strong>Vị thuốc</strong><span class="count" data-count="vi-thuoc"></span><small>Tính, vị, quy kinh, độc tính, vai trò ở các bài</small></a>
+          <a href="#/muc/thuat-ngu"><strong>Thuật ngữ</strong><span class="count" data-count="thuat-ngu"></span><small>Âm dương, Ngũ hành, tạng phủ — giải 3 tầng</small></a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-btn" aria-expanded="false">Học tập</button>
+        <div class="nav-menu">
+          <a href="#/hoc"><strong>Học bằng hình</strong><small>Nồi nước – Bếp lửa, Rồng về ổ, Lưỡi tự dựng</small></a>
+          <a href="#/on-luyen"><strong>Ôn luyện</strong><small>Thẻ ghi nhớ và câu đố tự sinh từ sổ cái</small></a>
+          <a href="#/hoc/ngu-phap"><strong>Đọc tên chứng</strong><small>Ghép tên theo khuôn Ở đâu + Cái gì + Thế nào</small></a>
+          <a href="#/muc/so-tay"><strong>Sổ tay nghiên cứu</strong><span class="count" data-count="so-tay"></span><small>Ghi chép luận điểm kèm nguồn</small></a>
+          <a href="#/nguon"><strong>Danh thư</strong><small>Các bộ sách gốc và nơi đọc bản số hóa</small></a>
+        </div>
+      </div>
+      <a class="nav-link" href="#/muc/duong-sinh">Dưỡng sinh</a>
+      <a class="nav-link" href="#/kiem-chung">Kiểm chứng lời đồn</a>
+      <span class="nav-spacer"></span>
+      <a class="nav-link" href="#/gioi-thieu">Giới thiệu</a>
     </nav>
-    <form class="topsearch" role="search" id="topsearch">
-      <input type="search" name="q" placeholder="Tìm vị thuốc, bài thuốc, thuật ngữ…" aria-label="Tìm kiếm" autocomplete="off">
-    </form>
   </header>
   <main id="main" tabindex="-1">
     <p class="loading">Đang mở sổ cái…</p>

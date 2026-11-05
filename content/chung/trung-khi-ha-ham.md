@@ -3,6 +3,7 @@ ten: Trung khí hạ hãm
 ten_han: 中氣下陷
 ten_khac: [Tỳ khí hạ hãm]
 tom_tat: Khí của Tỳ Vị (trung khí) yếu đến mức không nâng đỡ được, sinh ra các chứng sa xuống.
+nhom: Tỳ Vị
 o_dau: Tỳ Vị (trung tiêu)
 cai_gi: Khí
 the_nao: Hãm (sa xuống)

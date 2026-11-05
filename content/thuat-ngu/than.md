@@ -2,6 +2,7 @@
 ten: Thận
 ten_han: 腎
 tom_tat: Gốc của âm dương trong cơ thể — cất giữ tinh, chứa cả nước (Thận thủy) lẫn lửa (Mệnh môn hỏa).
+nhom: Tạng phủ
 hinh_anh: Nồi nước trên bếp lửa ở tận gốc cơ thể: nước và lửa phải cùng đủ thì mọi tạng mới được nuôi.
 trang_thai: nhap
 lien_quan: [menh-mon, than-am-hu, than-duong-hu, am-duong, ngu-hanh]

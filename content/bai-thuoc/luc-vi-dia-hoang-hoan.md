@@ -3,6 +3,7 @@ ten: Lục vị địa hoàng hoàn
 ten_han: 六味地黃丸
 ten_khac: [Lục vị, Lục vị hoàn]
 tom_tat: Bài nền của phép tư bổ Thận âm — ba vị bổ đi cặp với ba vị tả, nên bổ mà không trệ.
+nhom: Bổ âm
 xuat_xu: Tiểu nhi dược chứng trực quyết (Tiền Ất, đời Tống) — cần đối chiếu
 hinh_anh: Châm thêm nước vào nồi, đồng thời khơi thông chỗ đọng để nước không ứ.
 cach_dung: Làm hoàn; liều theo nguồn cần đối chiếu

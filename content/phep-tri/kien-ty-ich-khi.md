@@ -2,6 +2,7 @@
 ten: Kiện Tỳ ích khí
 ten_han: 健脾益氣
 tom_tat: Làm cho bộ máy tiêu hóa khỏe lên và thêm sức vận hành (khí).
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Nhóm lại bếp cho nồi cơm chín đều — thức ăn được "nấu" thành sức lực.
 dong_tu: [Kiện (làm khỏe), Ích (thêm vào)]
 doi_tuong: Tỳ · Khí

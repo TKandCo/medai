@@ -3,6 +3,7 @@ ten: Tứ vật thang
 ten_han: 四物湯
 ten_khac: [Tứ vật]
 tom_tat: Bài nền của phép bổ huyết — bốn vị vừa bổ huyết vừa giữ cho huyết lưu thông.
+nhom: Bổ huyết
 xuat_xu: Thái bình huệ dân hòa tễ cục phương (đời Tống) — cần đối chiếu
 hinh_anh: Tưới nước cho khu vườn khô, đồng thời khơi rãnh để nước chảy đều tới từng gốc.
 cach_dung: Sắc uống; liều theo nguồn cần đối chiếu

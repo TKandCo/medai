@@ -2,6 +2,7 @@
 ten: Thanh nhiệt tả hỏa
 ten_han: 清熱瀉火
 tom_tat: Làm mát và xả bớt lửa — dùng khi lửa thật quá mạnh (thực nhiệt).
+nhom: Thanh pháp (làm mát)
 hinh_anh: Lửa dưới bếp quá to, nước sôi trào ra ngoài: phải bớt lửa.
 dong_tu: [Thanh (làm mát), Tả (xả bớt)]
 doi_tuong: Nhiệt · Hỏa

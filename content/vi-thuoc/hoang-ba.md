@@ -5,6 +5,7 @@ ten_khac: [Hoàng bách]
 ten_khoa_hoc: Phellodendron amurense Rupr.
 bo_phan_dung: Vỏ thân
 tom_tat: Vị đắng, tính lạnh; làm khô thấp nhiệt, hạ hư hỏa ở Thận.
+nhom: Thanh nhiệt
 tinh: Hàn
 vi: Đắng
 quy_kinh: [Thận, Bàng quang, Đại trường]

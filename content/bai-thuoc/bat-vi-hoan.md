@@ -3,6 +3,7 @@ ten: Bát vị hoàn
 ten_han: 八味丸
 ten_khac: [Bát vị, Thận khí hoàn, Kim quỹ thận khí hoàn]
 tom_tat: Lục vị thêm chút Quế, Phụ — trong nước mà sinh lửa; bài Lãn Ông dùng để sưởi ấm ổ cho long hỏa trở về.
+nhom: Bổ dương
 xuat_xu: Kim quỹ yếu lược (Trương Trọng Cảnh) — cần đối chiếu
 hinh_anh: Sưởi ấm ổ rồng: thêm lửa nhỏ ngay trong nồi nước, không đốt to bên ngoài.
 cach_dung: Làm hoàn; liều theo nguồn cần đối chiếu

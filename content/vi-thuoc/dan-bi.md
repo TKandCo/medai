@@ -5,6 +5,7 @@ ten_khac: [Mẫu đơn bì]
 ten_khoa_hoc: Paeonia suffruticosa Andr.
 bo_phan_dung: Vỏ rễ cây mẫu đơn
 tom_tat: Vị đắng cay, hơi lạnh; làm mát huyết, cho huyết lưu thông.
+nhom: Thanh nhiệt
 tinh: Hơi hàn
 vi: Đắng, cay
 quy_kinh: [Tâm, Can, Thận]

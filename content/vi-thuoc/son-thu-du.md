@@ -5,6 +5,7 @@ ten_khac: [Sơn thù, Thù nhục]
 ten_khoa_hoc: Cornus officinalis Sieb. et Zucc.
 bo_phan_dung: Thịt quả đã bỏ hạt
 tom_tat: Vị chua chát, hơi ấm; bổ Can Thận, thu giữ tinh khí không cho thoát.
+nhom: Cố sáp (thu giữ)
 tinh: Hơi ôn
 vi: Chua, chát
 quy_kinh: [Can, Thận]

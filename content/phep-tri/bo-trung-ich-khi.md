@@ -3,6 +3,7 @@ ten: Bổ trung ích khí
 ten_han: 補中益氣
 ten_khac: [Thăng dương cử hãm]
 tom_tat: Bổ khí cho trung tiêu (Tỳ Vị) và nâng khí đang bị hãm xuống.
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Bơm lại chiếc lốp xẹp rồi nâng xe lên.
 dong_tu: [Bổ (bù vào), Ích (thêm vào)]
 doi_tuong: Trung (Tỳ Vị) · Khí

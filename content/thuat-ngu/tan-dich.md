@@ -2,6 +2,7 @@
 ten: Tân dịch
 ten_han: 津液
 tom_tat: Mọi chất lỏng bình thường trong cơ thể — phần loãng (tân) làm ẩm da cơ, phần đặc (dịch) nuôi khớp, não tủy.
+nhom: Khí, huyết, tân dịch
 hinh_anh: Sương sớm và nhựa cây: sương làm ẩm mặt lá, nhựa nuôi bên trong thân cây.
 trang_thai: nhap
 lien_quan: [khi, ty, phe, than]

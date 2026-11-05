@@ -2,6 +2,7 @@
 ten: Dẫn hỏa quy nguyên
 ten_han: 引火歸元
 tom_tat: Dẫn lửa (long hỏa) đang bay lên trở về ổ của nó ở Thận — bằng cách sưởi ấm ổ chứ không dập lửa.
+nhom: Ôn pháp (làm ấm)
 hinh_anh: Rồng sợ ổ lạnh mà bay lên; sưởi ấm ổ thì rồng tự về.
 dong_tu: [Dẫn (kéo, dẫn đường), Quy (trở về)]
 doi_tuong: Hỏa · Nguyên (gốc, nguồn)

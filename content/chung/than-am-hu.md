@@ -2,6 +2,7 @@
 ten: Thận âm hư
 ten_han: 腎陰虛
 tom_tat: Phần nước (âm) của Thận bị thiếu — gốc của phần mát, phần nuôi dưỡng trong toàn thân yếu đi.
+nhom: Thận
 o_dau: Thận
 cai_gi: Âm (phần nước, phần mát)
 the_nao: Hư (thiếu)

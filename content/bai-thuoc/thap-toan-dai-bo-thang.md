@@ -3,6 +3,7 @@ ten: Thập toàn đại bổ thang
 ten_han: 十全大補湯
 ten_khac: [Thập toàn đại bổ]
 tom_tat: Bát trân thêm Hoàng kỳ, Nhục quế — bổ khí huyết, thêm sức ấm, cho người hư yếu lâu ngày thiên về hàn.
+nhom: Khí huyết song bổ
 xuat_xu: Thái bình huệ dân hòa tễ cục phương (đời Tống) — cần đối chiếu
 hinh_anh: Nồi canh bổ của Bát trân, đặt thêm vào bếp một ngọn lửa ấm.
 cach_dung: Sắc uống; liều theo nguồn cần đối chiếu

@@ -4,6 +4,7 @@ ten_han: 黃芪
 ten_khoa_hoc: Astragalus membranaceus (Fisch.) Bunge
 bo_phan_dung: Rễ
 tom_tat: Vị ngọt, hơi ấm; bổ khí và nâng khí lên, giữ chặt phần bên ngoài cơ thể.
+nhom: Bổ khí
 tinh: Hơi ôn
 vi: Ngọt
 quy_kinh: [Tỳ, Phế]

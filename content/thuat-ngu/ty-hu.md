@@ -3,6 +3,7 @@ ten: Tỳ hư
 ten_han: 脾虛
 ten_khac: [Tỳ khí hư]
 tom_tat: Chức năng tiêu hóa, chuyển hóa thức ăn thành khí huyết bị suy yếu.
+nhom: Tạng phủ
 trang_thai: nhap
 lien_quan: [tu-quan-tu-thang, cam-thao]
 nguon:

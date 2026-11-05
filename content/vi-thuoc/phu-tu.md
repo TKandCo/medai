@@ -5,6 +5,7 @@ ten_khac: [Hắc phụ, Chế phụ tử, Bạch phụ phiến]
 ten_khoa_hoc: Aconitum carmichaelii Debx.
 bo_phan_dung: Rễ con (củ con) của cây Ô đầu
 tom_tat: Vị cay, tính đại nhiệt, có độc; hồi dương cứu nghịch, bổ hỏa trợ dương. Phải bào chế, không tự dùng.
+nhom: Ôn lý (làm ấm bên trong)
 tinh: Đại nhiệt
 vi: Cay, ngọt
 quy_kinh: [Tâm, Thận, Tỳ]

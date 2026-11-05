@@ -5,6 +5,7 @@ ten_khac: [Quốc lão, Sinh cam thảo, Chích cam thảo]
 ten_khoa_hoc: Glycyrrhiza uralensis Fisch.
 bo_phan_dung: Rễ và thân rễ
 tom_tat: Vị ngọt, tính bình; bổ Tỳ ích khí, giải độc và điều hòa các vị trong bài thuốc.
+nhom: Bổ khí
 tinh: Bình
 vi: Ngọt (cam)
 quy_kinh: [Tâm, Phế, Tỳ, Vị]

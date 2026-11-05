@@ -3,6 +3,7 @@ ten: Bát trân thang
 ten_han: 八珍湯
 ten_khac: [Bát trân]
 tom_tat: Tứ quân (bổ khí) ghép Tứ vật (bổ huyết) — tám vị quý, cho người khí huyết đều hư.
+nhom: Khí huyết song bổ
 xuat_xu: Chính thể loại yếu (Tiết Kỷ, đời Minh) — cần đối chiếu
 hinh_anh: Vừa nhóm lại bếp (khí) vừa châm thêm nước (huyết): hai việc cùng lúc cho nồi canh nuôi cả nhà.
 cach_dung: Sắc uống, thường thêm Sinh khương, Đại táo; liều theo nguồn cần đối chiếu

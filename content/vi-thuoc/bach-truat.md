@@ -4,6 +4,7 @@ ten_han: 白朮
 ten_khoa_hoc: Atractylodes macrocephala Koidz.
 bo_phan_dung: Thân rễ
 tom_tat: Vị đắng ngọt, tính ấm; kiện Tỳ, làm khô thấp — vị chủ chốt giúp Tỳ vận hóa.
+nhom: Bổ khí
 tinh: Ôn
 vi: Đắng, ngọt
 quy_kinh: [Tỳ, Vị]

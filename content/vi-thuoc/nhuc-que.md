@@ -5,6 +5,7 @@ ten_khac: [Quế, Quan quế, Quế nhục]
 ten_khoa_hoc: Cinnamomum cassia Presl
 bo_phan_dung: Vỏ thân cây quế
 tom_tat: Vị cay ngọt, rất nóng; bổ lửa Mệnh môn, dẫn hỏa quy nguyên.
+nhom: Ôn lý (làm ấm bên trong)
 tinh: Đại nhiệt
 vi: Cay, ngọt
 quy_kinh: [Thận, Tỳ, Tâm, Can]

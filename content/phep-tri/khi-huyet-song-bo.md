@@ -2,6 +2,7 @@
 ten: Khí huyết song bổ
 ten_han: 氣血雙補
 tom_tat: Bổ cùng lúc cả khí lẫn huyết, vì hai thứ cùng một nguồn và nương vào nhau.
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Vừa nhóm bếp vừa châm nước.
 dong_tu: [Song (đôi, cả hai), Bổ (bù vào chỗ thiếu)]
 doi_tuong: Khí và Huyết

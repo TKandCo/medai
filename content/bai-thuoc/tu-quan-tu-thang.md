@@ -2,6 +2,7 @@
 ten: Tứ quân tử thang
 ten_han: 四君子湯
 tom_tat: Bài gốc của phép bổ khí; ích khí kiện Tỳ, dùng cho Tỳ Vị khí hư.
+nhom: Bổ khí
 xuat_xu: Thái bình huệ dân hòa tễ cục phương (đời Tống)
 hinh_anh: Nhóm lại bếp cho nồi cơm chín đều — thức ăn được nấu thành sức lực.
 chu_tri:

@@ -5,6 +5,7 @@ ten_khac: [Khung cùng]
 ten_khoa_hoc: Ligusticum chuanxiong Hort.
 bo_phan_dung: Thân rễ
 tom_tat: Vị cay, tính ấm; cho huyết và khí cùng chạy — "vị thuốc khí trong huyết".
+nhom: Hoạt huyết
 tinh: Ôn
 vi: Cay
 quy_kinh: [Can, Đởm, Tâm bào]

@@ -3,6 +3,7 @@ ten: Tri bá địa hoàng hoàn
 ten_han: 知柏地黃丸
 ten_khac: [Tri bá bát vị hoàn]
 tom_tat: Lục vị thêm Tri mẫu, Hoàng bá — vừa tưới nước vừa hạ lửa, cho chứng âm hư hỏa vượng.
+nhom: Bổ âm
 xuat_xu: Cần đối chiếu (thường dẫn Y tông kim giám)
 hinh_anh: Nồi cạn đang sôi sùng sục: châm nước vào, đồng thời hạ bớt hơi nóng đang bốc.
 cach_dung: Làm hoàn; liều theo nguồn cần đối chiếu

@@ -4,6 +4,7 @@ ten_han: 人參
 ten_khoa_hoc: Panax ginseng C.A.Mey.
 bo_phan_dung: Rễ
 tom_tat: Vị ngọt hơi đắng, hơi ấm; đại bổ nguyên khí — vị đứng đầu nhóm bổ khí.
+nhom: Bổ khí
 tinh: Hơi ôn
 vi: Ngọt, hơi đắng
 quy_kinh: [Tỳ, Phế, Tâm]

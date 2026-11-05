@@ -2,6 +2,7 @@
 ten: Tỳ
 ten_han: 脾
 tom_tat: Tạng giữ kho lương — biến thức ăn thành khí huyết, là gốc của sức lực sau khi sinh ra (hậu thiên).
+nhom: Tạng phủ
 hinh_anh: Quan giữ kho lương và cũng là người nấu bếp: nấu chín thức ăn thành sức lực rồi phân phát đi.
 trang_thai: nhap
 lien_quan: [ty-hu, ty-khi-hu, khi, huyet, ngu-hanh]

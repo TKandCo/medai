@@ -2,6 +2,7 @@
 ten: Tư âm giáng hỏa
 ten_han: 滋陰降火
 tom_tat: Tưới thêm nước (âm) để lửa đang bốc lên tự lắng xuống — dùng khi nóng là do thiếu nước, không phải do lửa thật quá to.
+nhom: Bổ pháp (bồi bổ)
 hinh_anh: Nồi nước cạn trên bếp: đáy nồi nóng rực không phải vì lửa to, mà vì nước đã cạn. Cách chữa là thêm nước, không phải tắt bếp.
 dong_tu: [Tư (tưới, bồi thêm), Giáng (hạ xuống)]
 doi_tuong: Âm (phần nước) · Hỏa (cái nóng bốc lên)

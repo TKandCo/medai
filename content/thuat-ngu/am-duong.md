@@ -2,6 +2,7 @@
 ten: Âm dương
 ten_han: 陰陽
 tom_tat: Hai mặt đối lập mà nương vào nhau của mọi sự vật — nền móng để Đông y hiểu cơ thể và bệnh tật.
+nhom: Lý luận nền tảng
 hinh_anh: Ngày và đêm: khác nhau, nhưng ngày tàn thì đêm tới, đêm tàn thì ngày lên; thiếu một bên thì bên kia cũng không còn.
 trang_thai: nhap
 lien_quan: [ngu-hanh, bat-cuong, menh-mon]

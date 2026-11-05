@@ -4,6 +4,7 @@ ten_han: 澤瀉
 ten_khoa_hoc: Alisma plantago-aquatica L.
 bo_phan_dung: Thân rễ
 tom_tat: Vị ngọt nhạt, tính lạnh; lợi thủy, thấm thấp, xả nhiệt qua đường tiểu.
+nhom: Lợi thủy thẩm thấp
 tinh: Hàn
 vi: Ngọt, nhạt
 quy_kinh: [Thận, Bàng quang]

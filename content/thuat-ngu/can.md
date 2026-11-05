@@ -2,6 +2,7 @@
 ten: Can
 ten_han: 肝
 tom_tat: Tạng như vị tướng quân — cất giữ huyết và giữ cho khí lưu thông thư thái.
+nhom: Tạng phủ
 hinh_anh: Vị tướng lo mưu tính: tướng bình tĩnh thì quân đi trôi chảy; tướng nổi giận thì cả trận rối.
 trang_thai: nhap
 lien_quan: [huyet, khi, ngu-hanh, tam, ty]

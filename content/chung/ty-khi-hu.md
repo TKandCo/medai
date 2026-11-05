@@ -2,6 +2,7 @@
 ten: Tỳ khí hư
 ten_han: 脾氣虛
 tom_tat: Sức vận hành của bộ máy tiêu hóa yếu đi — ăn vào không hóa được thành sức lực.
+nhom: Tỳ Vị
 o_dau: Tỳ
 cai_gi: Khí (sức vận hành)
 the_nao: Hư (thiếu)

@@ -2,6 +2,7 @@
 ten: Bát cương
 ten_han: 八綱
 tom_tat: Tám "dây cái" để phân loại mọi bệnh: biểu – lý, hàn – nhiệt, hư – thực, âm – dương.
+nhom: Lý luận nền tảng
 hinh_anh: Tám sợi dây cái của tấm lưới: nắm đúng dây cái thì cả tấm lưới giương lên.
 trang_thai: nhap
 lien_quan: [am-duong, khi, huyet]

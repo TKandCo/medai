@@ -2,6 +2,7 @@
 ten: Bổ trung ích khí thang
 ten_han: 補中益氣湯
 tom_tat: Bổ khí cho Tỳ Vị và nâng khí đang bị hãm xuống — bài tiêu biểu của Lý Đông Viên.
+nhom: Bổ khí
 xuat_xu: Tỳ Vị luận (Lý Đông Viên, đời Kim–Nguyên) — cần đối chiếu
 hinh_anh: Bơm hơi cho chiếc lốp xẹp rồi nâng xe lên: vừa thêm sức vừa đưa lên.
 cach_dung: Sắc uống; liều theo nguồn cần đối chiếu

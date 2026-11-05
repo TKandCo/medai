@@ -2,6 +2,7 @@
 ten: Tâm
 ten_han: 心
 tom_tat: Tạng đứng đầu, như vị vua — chủ huyết mạch và chủ thần minh (tinh thần, ý thức, giấc ngủ).
+nhom: Tạng phủ
 hinh_anh: Nhà vua trong triều đình tạng phủ: vua sáng thì cả nước yên.
 trang_thai: nhap
 lien_quan: [huyet, ngu-hanh, can, ty, phe, than]

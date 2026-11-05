@@ -4,6 +4,7 @@ ten_han: 知母
 ten_khoa_hoc: Anemarrhena asphodeloides Bunge
 bo_phan_dung: Thân rễ
 tom_tat: Vị đắng ngọt, tính lạnh; vừa làm mát lửa vừa tưới âm.
+nhom: Thanh nhiệt
 tinh: Hàn
 vi: Đắng, ngọt
 quy_kinh: [Phế, Vị, Thận]

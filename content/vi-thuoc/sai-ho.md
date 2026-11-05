@@ -4,6 +4,7 @@ ten_han: 柴胡
 ten_khoa_hoc: Bupleurum chinense DC.
 bo_phan_dung: Rễ
 tom_tat: Vị đắng cay, hơi lạnh; khơi thông khí của Can, hòa giải, đưa thanh khí đi lên.
+nhom: Giải biểu
 tinh: Hơi hàn
 vi: Đắng, cay
 quy_kinh: [Can, Đởm]

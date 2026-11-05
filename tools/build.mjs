@@ -13,6 +13,7 @@ import { slugify, buildRuleIndex, checkHerbs } from '../site/assets/core.js';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 export const TYPES = {
+  benh: { label: 'Bệnh thường gặp', required: ['ten', 'tom_tat', 'yhct', 'nhom', 'cap_cuu'] },
   'thuat-ngu': { label: 'Thuật ngữ', required: ['ten', 'tom_tat'] },
   chung: { label: 'Chứng bệnh', required: ['ten', 'tom_tat'] },
   'phep-tri': { label: 'Phép trị', required: ['ten', 'tom_tat'] },
@@ -27,11 +28,30 @@ export const ROLES = ['quân', 'thần', 'tá', 'sứ'];
 const LIST_FIELDS = [
   'ten_khac', 'quy_kinh', 'nguon', 'lien_quan', 'thanh_phan', 'kieng_ky', 'cong_nang', 'chu_tri',
   'trieu_chung_chinh', 'trieu_chung_phu', 'phep_tri', 'bai_thuoc', 'chung', 'gia_giam', 'bo_vi', 'dong_tu',
+  'the_benh', 'cap_cuu', 'duong_sinh',
 ];
 // Trường chứa mã trang khác → web hiện thành liên kết
 const ID_FIELDS = ['phep_tri', 'bai_thuoc', 'chung', 'ho', 'nguoc_lai'];
 // Trường được xử lý riêng, không đưa vào bảng thông tin chung
-const SPECIAL = ['ten', 'ten_han', 'ten_khac', 'tom_tat', 'trang_thai', 'muc_an_toan', 'nguon', 'lien_quan', 'thanh_phan', 'bo_vi', 'hinh_anh', ...ID_FIELDS];
+const SPECIAL = ['ten', 'ten_han', 'ten_khac', 'tom_tat', 'trang_thai', 'muc_an_toan', 'nguon', 'lien_quan', 'thanh_phan', 'bo_vi', 'hinh_anh', 'nhom',
+  'yhct', 'the_benh', 'cap_cuu', 'duong_sinh', 'phoi_hop', ...ID_FIELDS];
+
+/** Gom tính của vị thuốc về 5 mức để lọc: "Hơi ôn" → "Ấm (ôn)" */
+export function tinhGroup(tinh) {
+  const t = String(tinh ?? '').toLowerCase();
+  if (!t) return '';
+  if (t.includes('nhiệt')) return 'Nóng (nhiệt)';
+  if (t.includes('ôn')) return 'Ấm (ôn)';
+  if (t.includes('bình')) return 'Bình';
+  if (t.includes('lương') || t.includes('hơi hàn')) return 'Mát (lương)';
+  if (t.includes('hàn')) return 'Lạnh (hàn)';
+  return '';
+}
+/** "Ngọt (cam), nhạt" → ["Ngọt", "Nhạt"] */
+export function viList(vi) {
+  return String(vi ?? '').split(/[,;]/).map((s) => s.replace(/\(.*?\)/g, '').trim().replace(/^hơi\s+/i, '')).filter(Boolean)
+    .map((s) => s[0].toUpperCase() + s.slice(1).toLowerCase());
+}
 
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
 const splitPipe = (line) => line.split('|').map((s) => s.trim());
@@ -166,6 +186,8 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
       nguon: (d.nguon ?? []).map(parseSource),
       lien_quan: d.lien_quan ?? [],
       hinh_anh: d.hinh_anh ? renderInline(d.hinh_anh, ctx) : '',
+      nhom: d.nhom ?? '',
+      facet: {},
       refs: {},
       path: e.path,
       fields: {},
@@ -185,7 +207,28 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
     item.tang = tiers.map((t) => ({ title: t.title, html: renderMarkdown(t.body, ctx) }));
     for (const c of hanChars(item.ten_han)) if (!chu[c]) missingChu.add(c);
 
+    if (e.loai === 'benh') {
+      item.yhct = renderInline(d.yhct ?? '', ctx);
+      item.cap_cuu = (d.cap_cuu ?? []).map((x) => renderInline(x, ctx));
+      item.duong_sinh = (d.duong_sinh ?? []).map((x) => renderInline(x, ctx));
+      item.phoi_hop = d.phoi_hop ? renderInline(d.phoi_hop, ctx) : '';
+      // Mỗi thể: "Tên thể | biểu hiện chính | phép trị | bài thuốc (ngăn bằng dấu phẩy)"
+      const ref = (name) => {
+        const id = canonical(slugify(name));
+        return { ten: name, id: byId.has(id) ? id : null };
+      };
+      item.the_benh = (d.the_benh ?? []).map((line) => {
+        const [ten, bieu_hien = '', phep = '', bai = ''] = splitPipe(line);
+        return {
+          ...ref(ten),
+          bieu_hien: renderInline(bieu_hien, ctx),
+          phep: phep ? ref(phep) : null,
+          bai: bai.split(',').map((s) => s.trim()).filter(Boolean).map(ref),
+        };
+      });
+    }
     if (e.loai === 'vi-thuoc') {
+      item.facet = { tinh: [tinhGroup(d.tinh)].filter(Boolean), vi: viList(d.vi), quy_kinh: d.quy_kinh ?? [] };
       item.canh_bao = checkHerbs([e.id], index);
       item.ky_voi = [...index.phan, ...index.uy]
         .map((k) => k.split('|'))
@@ -211,6 +254,7 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
       item.canh_bao = checkHerbs(item.thanh_phan.map((x) => x.id), index);
       if (item.canh_bao.pairs.length) warnings.push(`${e.path}: có cặp phản/úy: ${item.canh_bao.pairs.map((p) => `${p.a}–${p.b}`).join(', ')}`);
     }
+    if (!item.nhom) warnings.push(`${e.path}: chưa có "nhom" (dùng để chia nhóm trong danh sách)`);
     for (const id of [...links, ...item.lien_quan]) if (!byId.has(id)) warnings.push(`${e.path}: liên kết tới "${id}" chưa có trang`);
     item.search = [d.ten, d.ten_han, ...(d.ten_khac ?? []), d.tom_tat, plainText(e.body), ...Object.values(d).flat()].filter(Boolean).join(' ');
     out.push(item);

@@ -5,6 +5,7 @@ ten_khac: [Quy đầu, Quy thân, Quy vĩ]
 ten_khoa_hoc: Angelica sinensis (Oliv.) Diels
 bo_phan_dung: Rễ
 tom_tat: Vị ngọt cay, tính ấm; vừa bổ huyết vừa cho huyết lưu thông — vị chủ chốt của nhóm bổ huyết.
+nhom: Bổ huyết
 tinh: Ôn
 vi: Ngọt, cay
 quy_kinh: [Can, Tâm, Tỳ]

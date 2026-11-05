@@ -2,6 +2,7 @@
 ten: Thận dương hư
 ten_han: 腎陽虛
 tom_tat: Lửa Mệnh môn ở Thận yếu đi — cơ thể thiếu sức ấm từ gốc.
+nhom: Thận
 o_dau: Thận
 cai_gi: Dương (phần lửa, phần ấm)
 the_nao: Hư (thiếu)
