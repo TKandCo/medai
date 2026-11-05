@@ -25,6 +25,8 @@ const FIELD_LABELS = {
   cong_nang: 'Công năng', chu_tri: 'Chủ trị', lieu: 'Liều dùng', bao_che: 'Bào chế', cach_dung: 'Cách dùng',
   kieng_ky: 'Kiêng kỵ', doc_tinh: 'Độc tính', xuat_xu: 'Xuất xứ', phap_tri: 'Pháp trị', gia_giam: 'Gia giảm',
   doi_tuong: 'Đối tượng', thoi_diem: 'Thời điểm',
+  trieu_chung_chinh: 'Triệu chứng chính', trieu_chung_phu: 'Triệu chứng kèm', luoi: 'Lưỡi', mach: 'Mạch',
+  o_dau: 'Ở đâu', cai_gi: 'Cái gì', the_nao: 'Thế nào', dong_tu: 'Động từ', dung_khi: 'Dùng khi', ghi_chu: 'Ghi chú',
 };
 const ROLE_ORDER = ['quân', 'thần', 'tá', 'sứ', ''];
 const RED_FLAGS = [
@@ -162,13 +164,92 @@ function fieldsHtml(fields) {
   return rows.length ? `<table class="facts"><tbody>${rows.join('')}</tbody></table>` : '';
 }
 
-function ingredientsHtml(list) {
-  const sorted = [...list].sort((a, b) => ROLE_ORDER.indexOf(a.vai) - ROLE_ORDER.indexOf(b.vai));
-  return `<h2>Thành phần</h2><div class="table-wrap"><table class="ingredients"><thead><tr><th>Vị thuốc</th><th>Vai trò</th><th>Liều</th></tr></thead><tbody>${sorted.map((x) => `<tr>
-      <td>${x.co_trong_so_cai ? `<a href="#/m/${esc(x.id)}">${esc(x.ten)}</a>` : esc(x.ten)}</td>
-      <td>${x.vai ? `<span class="role role-${esc(slugify(x.vai))}">${esc(x.vai[0].toUpperCase() + x.vai.slice(1))}</span>` : ''}</td>
-      <td>${esc(x.lieu)}</td></tr>`).join('')}</tbody></table></div>
-    <p class="muted small">Quân: vị chủ lực · Thần: hỗ trợ quân · Tá: hỗ trợ, chế bớt tác dụng phụ · Sứ: dẫn thuốc, điều hòa.</p>`;
+const ROLE_INFO = {
+  'quân': ['Quân', 'Vị chủ lực, giải quyết vấn đề chính'],
+  'thần': ['Thần', 'Giúp Quân, hoặc lo chứng kèm quan trọng'],
+  'tá': ['Tá', 'Giúp thêm, hoặc kiềm bớt tác dụng phụ'],
+  'sứ': ['Sứ', 'Dẫn thuốc tới nơi, điều hòa các vị'],
+  '': ['Khác', 'Chưa ghi vai trò'],
+};
+const hanChars = (s) => [...new Set([...String(s ?? '')].filter((c) => /[㐀-鿿豈-﫿]/.test(c)))];
+const link = (id) => (BY_ID.has(id) ? `<a href="#/m/${esc(id)}">${esc(BY_ID.get(id).ten)}</a>` : `<span class="muted">${esc(id)}</span>`);
+const linkList = (ids) => ids.map(link).join(', ');
+
+function giaiChuHtml(e) {
+  const chars = hanChars(e.ten_han);
+  if (!chars.length) return '';
+  const rows = chars.map((c) => {
+    const x = DB.chu[c];
+    if (!x) return `<tr><td class="han big">${esc(c)}</td><td colspan="4" class="muted">Chưa giải nghĩa</td></tr>`;
+    return `<tr><td><a class="han big" href="#/chu/${encodeURIComponent(c)}">${esc(c)}</a></td><td><strong>${esc(x.am)}</strong></td>
+      <td>${esc(x.bo ?? '')}${x.bo_ten ? ` <span class="muted">${esc(x.bo_ten)}</span>` : ''}</td><td>${esc(x.nghia)}</td><td>${esc(x.nghia_y ?? '')}</td></tr>`;
+  }).join('');
+  return `<details class="giai-chu" open><summary>Giải chữ · ${esc(e.ten_han)}</summary>
+    <div class="table-wrap"><table><thead><tr><th>Chữ</th><th>Âm</th><th>Bộ thủ</th><th>Nghĩa thường ngày</th><th>Nghĩa trong y học</th></tr></thead><tbody>${rows}</tbody></table></div>
+  </details>`;
+}
+
+function chainHtml(e) {
+  const nhac = e.duoc_nhac ?? {};
+  let steps = [];
+  if (e.loai === 'bai-thuoc') {
+    const quan = e.thanh_phan.filter((x) => x.vai === 'quân').map((x) => x.id);
+    steps = [['Chứng', e.refs.chung ?? []], ['Phép trị', e.refs.phep_tri ?? []], ['Bài', [e.id]], ['Vị chủ lực', quan]];
+  } else if (e.loai === 'chung') {
+    steps = [['Chứng', [e.id]], ['Phép trị', e.refs.phep_tri ?? []], ['Bài', [...(e.refs.bai_thuoc ?? []), ...(nhac['bai-thuoc'] ?? [])]]];
+  } else if (e.loai === 'phep-tri') {
+    steps = [['Chứng', [...(e.refs.chung ?? []), ...(nhac.chung ?? [])]], ['Phép trị', [e.id]], ['Bài', [...(e.refs.bai_thuoc ?? []), ...(nhac['bai-thuoc'] ?? [])]]];
+  } else return '';
+  steps = steps.map(([t, ids]) => [t, [...new Set(ids)]]);
+  if (steps.filter(([, ids]) => ids.length).length < 2) return '';
+  return `<nav class="chain" aria-label="Chuỗi lý luận">${steps.map(([t, ids]) => `<div class="chain-step${ids.includes(e.id) ? ' here' : ''}">
+      <span class="chain-label">${esc(t)}</span><span>${ids.length ? ids.map((id) => (id === e.id ? `<strong>${esc(e.ten)}</strong>` : link(id))).join('<br>') : '<span class="muted">—</span>'}</span></div>`).join('<span class="chain-arrow" aria-hidden="true">→</span>')}</nav>`;
+}
+
+function teamHtml(list) {
+  const groups = ['quân', 'thần', 'tá', 'sứ', ''].map((r) => [r, list.filter((x) => (ROLE_INFO[x.vai] ? x.vai : '') === r)]).filter(([, xs]) => xs.length);
+  return `<h2>Đội hình</h2>
+    <div class="team">${groups.map(([r, xs]) => `<section class="team-col team-${esc(slugify(r) || 'khac')}">
+      <h3>${esc(ROLE_INFO[r][0])}<small>${esc(ROLE_INFO[r][1])}</small></h3>
+      ${xs.map((x) => `<div class="member"><div class="member-name">${x.co_trong_so_cai ? `<a href="#/m/${esc(x.id)}">${esc(x.ten)}</a>` : esc(x.ten)}${x.lieu ? `<span class="dose">${esc(x.lieu)}</span>` : ''}</div>${x.viec ? `<div class="member-job">${x.viec}</div>` : ''}</div>`).join('')}
+    </section>`).join('')}</div>`;
+}
+
+function boViHtml(list) {
+  if (!list?.length) return '';
+  return `<h2>Bỏ vị này thì sao?</h2><div class="drop-list">${list.map((x) => `<details><summary>Bỏ <strong>${esc(x.ten)}</strong></summary><p>${x.hau_qua}</p></details>`).join('')}</div>`;
+}
+
+function familyHtml(e) {
+  const parts = [];
+  if (e.so_voi_goc) {
+    const s = e.so_voi_goc;
+    const name = (x) => (BY_ID.has(x.id) ? link(x.id) : esc(x.ten));
+    parts.push(`<p>Bài gốc: ${link(s.goc)}${s.them.length ? ` · <span class="plus">thêm ${s.them.map(name).join(', ')}</span>` : ''}${s.bot.length ? ` · <span class="minus">bớt ${s.bot.map(name).join(', ')}</span>` : ''}</p>`);
+  }
+  if (e.ho_con?.length) {
+    parts.push(`<ul class="family">${e.ho_con.map((id) => {
+      const c = BY_ID.get(id);
+      const s = c.so_voi_goc;
+      return `<li>${link(id)} — ${s.them.length ? `<span class="plus">thêm ${s.them.map((x) => esc(x.ten)).join(', ')}</span>` : ''}${s.bot.length ? ` <span class="minus">bớt ${s.bot.map((x) => esc(x.ten)).join(', ')}</span>` : ''}<br><span class="muted small">${esc(c.tom_tat)}</span></li>`;
+    }).join('')}</ul>`);
+  }
+  return parts.length ? `<h2>Họ bài thuốc</h2>${parts.join('')}` : '';
+}
+
+function vaiTroHtml(e) {
+  if (!e.vai_tro?.length) return '';
+  return `<h2>Vị này đóng vai gì ở các bài</h2><div class="table-wrap"><table><thead><tr><th>Bài thuốc</th><th>Vai</th><th>Việc trong bài</th></tr></thead><tbody>${e.vai_tro.map((v) => `<tr><td>${link(v.bai)}</td><td>${v.vai ? `<span class="role role-${esc(slugify(v.vai))}">${esc(ROLE_INFO[v.vai]?.[0] ?? v.vai)}</span>` : ''}</td><td>${v.viec || '<span class="muted">chưa ghi</span>'}</td></tr>`).join('')}</tbody></table></div>
+    <p class="muted small">Quân, Thần, Tá, Sứ là việc được giao trong một bài, không phải bản chất cố định của vị thuốc.</p>`;
+}
+
+function refsHtml(e) {
+  if (e.loai !== 'chung' && e.loai !== 'phep-tri') return '';
+  const nhac = e.duoc_nhac ?? {};
+  const rows = [];
+  if (e.refs.nguoc_lai) rows.push(['Phép ngược lại', e.refs.nguoc_lai]);
+  if (e.refs.ho) rows.push(['Thuộc nhóm', e.refs.ho]);
+  return rows.length ? `<table class="facts"><tbody>${rows.map(([t, ids]) => `<tr><th scope="row">${esc(t)}</th><td>${linkList(ids)}</td></tr>`).join('')}</tbody></table>` : '';
 }
 
 function tiersHtml(e) {
@@ -202,10 +283,17 @@ function pageEntry(id) {
     ${e.trang_thai === 'nhap' ? `<div class="notice notice-nhap">${esc(st.note)}</div>` : ''}
     ${safety && e.muc_an_toan !== 'xanh' ? `<div class="notice notice-${e.muc_an_toan}">${esc(safety.note)}</div>` : ''}
     ${warn ? `<div class="notice notice-do"><strong>Cảnh báo theo quy tắc cổ điển</strong>${warn}</div>` : ''}
+    ${chainHtml(e)}
+    ${giaiChuHtml(e)}
+    ${e.hinh_anh ? `<div class="picture-note"><span class="picture-tag">Hình ảnh để hiểu</span><p>${e.hinh_anh}</p></div>` : ''}
     ${fieldsHtml(e.fields)}
-    ${e.thanh_phan ? ingredientsHtml(e.thanh_phan) : ''}
+    ${refsHtml(e)}
+    ${e.thanh_phan ? teamHtml(e.thanh_phan) : ''}
+    ${boViHtml(e.bo_vi)}
+    ${familyHtml(e)}
     ${tiersHtml(e)}
     <div class="prose">${e.html}</div>
+    ${vaiTroHtml(e)}
     ${kyVoi}
     ${related.length ? `<h2>Liên quan</h2><ul>${related.map((x) => `<li><a href="#/m/${esc(x)}">${esc(BY_ID.get(x).ten)}</a></li>`).join('')}</ul>` : ''}
     <h2>Nguồn</h2>
@@ -215,6 +303,94 @@ function pageEntry(id) {
       <a href="${esc(repo)}/issues/new?title=${encodeURIComponent(`Góp ý: ${e.ten}`)}&body=${encodeURIComponent(`Trang: ${e.path}\n\nNội dung cần sửa:\n\nNguồn đối chiếu (sách, quyển, trang):\n`)}" target="_blank" rel="noopener">Báo sai sót</a>
     </p>
   </article>`;
+}
+
+function pageChu(c) {
+  const x = DB.chu[c];
+  if (!x) return pageNotFound();
+  setTitle(`Chữ ${c} · ${x.am}`);
+  const used = DB.entries.filter((e) => e.ten_han.includes(c));
+  const sameRadical = Object.values(DB.chu).filter((y) => y.bo && y.bo === x.bo && y.chu !== c);
+  return `<p class="crumbs"><a href="#/hoc/ngu-phap">Đọc tên chứng</a></p>
+    <div class="chu-head"><span class="han huge">${esc(c)}</span><div><h1>${esc(x.am)}</h1><p class="lead">${esc(x.nghia)}</p></div></div>
+    <table class="facts"><tbody>
+      <tr><th scope="row">Bộ thủ</th><td><span class="han">${esc(x.bo ?? '')}</span> ${esc(x.bo_ten ?? '')}</td></tr>
+      ${x.hinh ? `<tr><th scope="row">Hình gốc của chữ</th><td>${esc(x.hinh)}</td></tr>` : ''}
+      ${x.nghia_y ? `<tr><th scope="row">Nghĩa trong y học</th><td>${esc(x.nghia_y)}</td></tr>` : ''}
+    </tbody></table>
+    ${x.bay ? `<div class="notice notice-vang"><strong>Bẫy nghĩa:</strong> ${esc(x.bay)}</div>` : ''}
+    <h2>Có trong các trang</h2>
+    ${used.length ? `<div class="cards">${used.map(entryCard).join('')}</div>` : '<p class="muted">Chưa có trang nào.</p>'}
+    ${sameRadical.length ? `<h2>Cùng bộ ${esc(x.bo)}</h2><p class="chu-row">${sameRadical.map((y) => `<a class="han chu-chip" href="#/chu/${encodeURIComponent(y.chu)}" title="${esc(y.am)}">${esc(y.chu)}<small>${esc(y.am)}</small></a>`).join('')}</p>` : ''}
+    <p class="muted small">Nghĩa chữ đang chờ đối chiếu với Hán Việt tự điển (Thiều Chửu).</p>`;
+}
+
+const GRAMMAR = {
+  o_dau: [
+    ['Tâm', 'Tâm', 'vua trong triều đình tạng phủ; chủ thần minh (tinh thần, giấc ngủ) và huyết mạch'],
+    ['Can', 'Can', 'tướng quân; tàng huyết, giữ cho khí lưu thông thư thái'],
+    ['Tỳ', 'Tỳ', 'quan giữ kho lương; tiêu hóa, biến thức ăn thành khí huyết'],
+    ['Phế', 'Phế', 'quan phụ tá; chủ khí, hơi thở, da lông'],
+    ['Thận', 'Thận', 'gốc của âm dương; tàng tinh, chứa nước (thủy) và lửa Mệnh môn'],
+  ],
+  cai_gi: [
+    ['khí', 'khí', 'sức vận hành, sức đẩy'],
+    ['huyết', 'huyết', 'máu, phần nuôi dưỡng'],
+
+    ['âm', 'âm', 'phần nước, phần mát, phần tĩnh'],
+    ['dương', 'dương', 'phần lửa, phần ấm, phần động'],
+  ],
+  the_nao: [
+    ['hư', 'hư', 'thiếu, yếu đi', { 'khí': 'Ích khí (thêm khí)', 'huyết': 'Dưỡng huyết (nuôi huyết)', 'âm': 'Tư âm (tưới thêm nước)', 'dương': 'Ôn dương (sưởi ấm)' }],
+    ['uất', 'uất', 'bị bó lại, không lưu thông', { 'khí': 'Sơ / Lý khí (khơi thông)', 'huyết': 'Hoạt huyết', 'âm': '—', 'dương': '—' }],
+    ['ứ', 'ứ', 'đọng lại một chỗ', { 'khí': 'Lý khí', 'huyết': 'Hoạt huyết, hóa ứ', 'âm': '—', 'dương': '—' }],
+    ['vượng', 'vượng', 'quá mạnh, bốc lên', { 'khí': 'Giáng khí', 'huyết': 'Lương huyết', 'âm': '—', 'dương': 'Bình / Tiềm dương' }],
+  ],
+};
+
+function pageGrammar() {
+  setTitle('Đọc tên chứng');
+  const group = (key, title, def) => `<h2>${esc(title)}</h2><div class="chips" role="group" data-gram="${key}">${GRAMMAR[key].map(([id, ten]) => `<button type="button" class="chip" data-value="${esc(id)}" aria-pressed="${id === def}">${esc(ten)}</button>`).join('')}</div>`;
+  return `<p class="crumbs"><a href="#/hoc">Học bằng hình</a></p>
+    <h1>Đọc tên chứng</h1>
+    <p class="lead">Tên chứng trong Đông y ghép theo một khuôn: <strong>Ở đâu + Cái gì + Thế nào</strong>. Chọn từng phần để ghép tên và đọc nghĩa của nó.</p>
+    <div class="lab">
+      <div class="lab-controls">
+        ${group('o_dau', '1 · Ở đâu (tạng phủ)', 'Thận')}
+        ${group('cai_gi', '2 · Cái gì', 'âm')}
+        ${group('the_nao', '3 · Thế nào', 'hư')}
+      </div>
+      <section class="gram-result" id="gram-result" aria-live="polite"></section>
+    </div>
+    <div class="notice notice-vang">Không phải tổ hợp nào cũng là một chứng có trong sách. Phép trị ở đây là gợi ý theo ngữ pháp để hiểu tên gọi, không thay việc biện chứng.</div>`;
+}
+
+function mountGrammar(root) {
+  const st = { o_dau: 'Thận', cai_gi: 'âm', the_nao: 'hư' };
+  const render = () => {
+    const o = GRAMMAR.o_dau.find((x) => x[0] === st.o_dau);
+    const c = GRAMMAR.cai_gi.find((x) => x[0] === st.cai_gi);
+    const t = GRAMMAR.the_nao.find((x) => x[0] === st.the_nao);
+    const name = `${o[1]} ${c[1]} ${t[1]}`;
+    const page = BY_ID.get(slugify(name));
+    const phap = t[3][c[0]];
+    const chars = [o[1], c[1], t[1]].map((w) => Object.values(DB.chu).find((x) => normalizeText(x.am) === normalizeText(w)));
+    root.querySelector('#gram-result').innerHTML = `
+      <p class="gram-name"><span class="g1">${esc(o[1])}</span> <span class="g2">${esc(c[1])}</span> <span class="g3">${esc(t[1])}</span></p>
+      <p class="han gram-han">${chars.map((x) => (x ? `<a href="#/chu/${encodeURIComponent(x.chu)}">${esc(x.chu)}</a>` : '')).join('')}</p>
+      <p><strong>Đọc là:</strong> <em>${esc(c[2])}</em> của <strong>${esc(o[1])}</strong> (${esc(o[2])}) đang <em>${esc(t[2])}</em>.</p>
+      ${phap && phap !== '—' ? `<p><strong>Phép trị theo ngữ pháp:</strong> ${esc(phap)} ${esc(o[1])}.</p>` : '<p class="muted">Tổ hợp này ít gặp trong sách.</p>'}
+      ${page ? `<p><a class="tile-link" href="#/m/${esc(page.id)}">Đọc trang “${esc(page.ten)}” trong sổ cái →</a></p>` : '<p class="muted small">Sổ cái chưa có trang cho tên này.</p>'}`;
+  };
+  root.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-gram] .chip');
+    if (!b) return;
+    const g = b.closest('[data-gram]');
+    st[g.dataset.gram] = b.dataset.value;
+    g.querySelectorAll('.chip').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    render();
+  });
+  render();
 }
 
 function pageCheck() {
@@ -307,6 +483,8 @@ function route() {
   if (parts.length === 0) html = pageHome();
   else if (parts[0] === 'hoc' && parts[1] === 'luoi') { setTitle('Lưỡi tự dựng'); html = pageTongue(); mount = mountTongue; }
   else if (parts[0] === 'hoc' && parts[1] === 'thuy-hoa') { setTitle('Nồi nước – Bếp lửa'); html = pageThuyHoa(); mount = mountThuyHoa; }
+  else if (parts[0] === 'hoc' && parts[1] === 'ngu-phap') { html = pageGrammar(); mount = mountGrammar; }
+  else if (parts[0] === 'chu') html = pageChu(parts[1] ?? '');
   else if (parts[0] === 'hoc' && parts[1] === 'rong') { setTitle('Rồng về ổ'); html = pageDragon(); mount = mountDragon; }
   else if (parts[0] === 'hoc') { setTitle('Học bằng hình'); html = pageLearn(); }
   else if (parts[0] === 'muc') html = pageList(parts[1]);

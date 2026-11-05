@@ -474,6 +474,7 @@ export function pageLearn() {
   return `<h1>Học bằng hình</h1>
   <p class="lead">Những điều sách chỉ tả bằng chữ, ở đây bạn nhìn và thử được.</p>
   <div class="tiles">
+    <a class="tile" href="#/hoc/ngu-phap"><h2>Đọc tên chứng</h2><p>Tên chứng ghép theo khuôn “Ở đâu + Cái gì + Thế nào”. Tự ghép để hiểu Tâm âm hư, Can khí uất, Thận dương hư…</p></a>
     <a class="tile" href="#/hoc/thuy-hoa"><h2>Nồi nước – Bếp lửa</h2><p>Âm dương, hàn nhiệt, hư thực qua hình ảnh Thủy – Hỏa của Lãn Ông. Vì sao cùng “nóng” mà có người cần thuốc mát, có người cần thuốc bổ âm.</p></a>
     <a class="tile" href="#/hoc/rong"><h2>Rồng về ổ</h2><p>Hình ảnh Long hỏa của Lãn Ông: vì sao ổ lạnh thì rồng bay lên, và vì sao phải sưởi ấm ổ chứ không dập lửa.</p></a>
     <a class="tile" href="#/hoc/luoi"><h2>Lưỡi tự dựng</h2><p>Chọn màu lưỡi, rêu, hình dáng để thấy chiếc lưỡi và cách Đông y đọc nó.</p></a>

@@ -14,16 +14,27 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 export const TYPES = {
   'thuat-ngu': { label: 'Thuật ngữ', required: ['ten', 'tom_tat'] },
-  'vi-thuoc': { label: 'Vị thuốc', required: ['ten', 'tinh', 'vi', 'quy_kinh', 'tom_tat', 'muc_an_toan'] },
+  chung: { label: 'Chứng bệnh', required: ['ten', 'tom_tat'] },
+  'phep-tri': { label: 'Phép trị', required: ['ten', 'tom_tat'] },
   'bai-thuoc': { label: 'Bài thuốc', required: ['ten', 'thanh_phan', 'tom_tat', 'muc_an_toan'] },
+  'vi-thuoc': { label: 'Vị thuốc', required: ['ten', 'tinh', 'vi', 'quy_kinh', 'tom_tat', 'muc_an_toan'] },
   'duong-sinh': { label: 'Dưỡng sinh', required: ['ten', 'tom_tat'] },
   'so-tay': { label: 'Sổ tay nghiên cứu', required: ['ten', 'tom_tat'] },
 };
 const STATUS = ['nhap', 'da-doi-chieu'];
 const SAFETY = ['xanh', 'vang', 'do'];
-const LIST_FIELDS = ['ten_khac', 'quy_kinh', 'nguon', 'lien_quan', 'thanh_phan', 'kieng_ky', 'cong_nang', 'chu_tri'];
+export const ROLES = ['quân', 'thần', 'tá', 'sứ'];
+const LIST_FIELDS = [
+  'ten_khac', 'quy_kinh', 'nguon', 'lien_quan', 'thanh_phan', 'kieng_ky', 'cong_nang', 'chu_tri',
+  'trieu_chung_chinh', 'trieu_chung_phu', 'phep_tri', 'bai_thuoc', 'chung', 'gia_giam', 'bo_vi', 'dong_tu',
+];
+// Trường chứa mã trang khác → web hiện thành liên kết
+const ID_FIELDS = ['phep_tri', 'bai_thuoc', 'chung', 'ho', 'nguoc_lai'];
+// Trường được xử lý riêng, không đưa vào bảng thông tin chung
+const SPECIAL = ['ten', 'ten_han', 'ten_khac', 'tom_tat', 'trang_thai', 'muc_an_toan', 'nguon', 'lien_quan', 'thanh_phan', 'bo_vi', 'hinh_anh', ...ID_FIELDS];
 
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
+const splitPipe = (line) => line.split('|').map((s) => s.trim());
 
 export function loadRules(root = ROOT) {
   return {
@@ -34,13 +45,14 @@ export function loadRules(root = ROOT) {
 }
 
 function parseSource(line) {
-  const [label, url] = line.split('|').map((s) => s.trim());
+  const [label, url] = splitPipe(line);
   return { label, url: url && /^https?:\/\//.test(url) ? url : null };
 }
 
-function parseIngredient(line) {
-  const [ten, vai = '', lieu = ''] = line.split('|').map((s) => s.trim());
-  return { ten, id: slugify(ten), vai: vai.toLowerCase(), lieu };
+/** "Thục địa | quân | 8 phần | tư Thận âm" → {ten, id, vai, lieu, viec} */
+export function parseIngredient(line) {
+  const [ten, vai = '', lieu = '', viec = ''] = splitPipe(line);
+  return { ten, id: slugify(ten), vai: vai.toLowerCase(), lieu, viec };
 }
 
 function splitTiers(body) {
@@ -49,6 +61,11 @@ function splitTiers(body) {
   const tiers = [];
   for (let i = 1; i < parts.length; i += 2) tiers.push({ title: parts[i].trim(), body: parts[i + 1] ?? '' });
   return { intro: parts[0], tiers };
+}
+
+/** Các chữ Hán (CJK) trong một chuỗi, theo thứ tự, không trùng */
+export function hanChars(text) {
+  return [...new Set([...String(text ?? '')].filter((c) => /[㐀-鿿豈-﫿]/.test(c)))];
 }
 
 export function loadEntries(root = ROOT) {
@@ -72,12 +89,25 @@ export function loadEntries(root = ROOT) {
   return { entries, errors };
 }
 
+function loadChu(root) {
+  const p = join(root, 'content', '_data', 'chu.json');
+  return existsSync(p) ? readJson(p) : [];
+}
+
 export function build({ root = ROOT, write = true, log = console.log } = {}) {
   const rules = loadRules(root);
   const index = buildRuleIndex(rules);
   const { entries, errors } = loadEntries(root);
   const warnings = [];
   const byId = new Map();
+
+  const chuList = loadChu(root);
+  const chu = {};
+  for (const c of chuList) {
+    if (chu[c.chu]) errors.push(`content/_data/chu.json: chữ ${c.chu} bị khai báo hai lần`);
+    if (!c.am || !c.nghia) errors.push(`content/_data/chu.json: chữ ${c.chu} thiếu "am" hoặc "nghia"`);
+    chu[c.chu] = c;
+  }
 
   for (const e of entries) {
     const where = e.path;
@@ -103,6 +133,13 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
       if (doc === 'rat-doc' && e.data.muc_an_toan !== 'do') errors.push(`${where}: vị rất độc phải có muc_an_toan: do`);
       if (doc && e.data.trang_thai === 'da-doi-chieu' && (!e.data.lieu || !e.data.bao_che)) errors.push(`${where}: vị có độc phải ghi "lieu" và "bao_che"`);
     }
+    if (e.loai === 'bai-thuoc') {
+      for (const line of e.data.thanh_phan ?? []) {
+        const ing = parseIngredient(line);
+        if (ing.vai && !ROLES.includes(ing.vai)) errors.push(`${where}: vai trò "${ing.vai}" của ${ing.ten} phải là quân, thần, tá hoặc sứ`);
+        if (e.data.trang_thai === 'da-doi-chieu' && !ing.viec) errors.push(`${where}: bài đã đối chiếu phải ghi "việc" (cột thứ tư) cho ${ing.ten}`);
+      }
+    }
   }
 
   // Tên khác (ví dụ "Chích cam thảo") → mã trang chính ("cam-thao")
@@ -110,6 +147,8 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
   for (const e of entries) for (const t of e.data.ten_khac ?? []) if (!byId.has(slugify(t))) alias.set(slugify(t), e.id);
   const canonical = (id) => (byId.has(id) ? id : alias.get(id) ?? id);
   const titleOf = (id) => byId.get(id)?.data.ten;
+  const missingChu = new Set();
+
   const out = [];
   for (const e of entries) {
     const links = new Set();
@@ -126,16 +165,25 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
       muc_an_toan: d.muc_an_toan ?? null,
       nguon: (d.nguon ?? []).map(parseSource),
       lien_quan: d.lien_quan ?? [],
+      hinh_anh: d.hinh_anh ? renderInline(d.hinh_anh, ctx) : '',
+      refs: {},
       path: e.path,
       fields: {},
     };
+    for (const f of ID_FIELDS) {
+      if (d[f] === undefined) continue;
+      const ids = (Array.isArray(d[f]) ? d[f] : [d[f]]).map((x) => canonical(slugify(x)));
+      item.refs[f] = ids;
+      for (const id of ids) if (!byId.has(id)) warnings.push(`${e.path}: "${f}" trỏ tới "${id}" chưa có trang`);
+    }
     for (const [k, v] of Object.entries(d)) {
-      if (['ten', 'ten_han', 'ten_khac', 'tom_tat', 'trang_thai', 'muc_an_toan', 'nguon', 'lien_quan', 'thanh_phan'].includes(k)) continue;
+      if (SPECIAL.includes(k)) continue;
       item.fields[k] = Array.isArray(v) ? v.map((x) => renderInline(x, ctx)) : renderInline(v, ctx);
     }
     const { intro, tiers } = splitTiers(e.body);
     item.html = renderMarkdown(intro, ctx);
     item.tang = tiers.map((t) => ({ title: t.title, html: renderMarkdown(t.body, ctx) }));
+    for (const c of hanChars(item.ten_han)) if (!chu[c]) missingChu.add(c);
 
     if (e.loai === 'vi-thuoc') {
       item.canh_bao = checkHerbs([e.id], index);
@@ -146,6 +194,7 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
           const other = p[0] === e.id ? p[1] : p[0];
           return { id: other, ten: index.names.get(other) ?? other, loai: index.phan.has([e.id, other].sort().join('|')) ? 'phan' : 'uy' };
         });
+      item.vai_tro = [];
     }
     if (e.loai === 'bai-thuoc') {
       item.thanh_phan = (d.thanh_phan ?? []).map(parseIngredient);
@@ -153,7 +202,12 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
         ing.id = canonical(ing.id);
         ing.co_trong_so_cai = byId.has(ing.id);
         if (!ing.co_trong_so_cai) warnings.push(`${e.path}: vị "${ing.ten}" chưa có trang trong sổ cái`);
+        ing.viec = renderInline(ing.viec, ctx);
       }
+      item.bo_vi = (d.bo_vi ?? []).map((line) => {
+        const [ten, hau_qua = ''] = splitPipe(line);
+        return { ten, id: canonical(slugify(ten)), hau_qua: renderInline(hau_qua, ctx) };
+      });
       item.canh_bao = checkHerbs(item.thanh_phan.map((x) => x.id), index);
       if (item.canh_bao.pairs.length) warnings.push(`${e.path}: có cặp phản/úy: ${item.canh_bao.pairs.map((p) => `${p.a}–${p.b}`).join(', ')}`);
     }
@@ -162,21 +216,56 @@ export function build({ root = ROOT, write = true, log = console.log } = {}) {
     out.push(item);
   }
 
+  // Quan hệ tính từ toàn bộ sổ cái
+  const itemById = new Map(out.map((x) => [x.id, x]));
+  for (const f of out.filter((x) => x.loai === 'bai-thuoc')) {
+    // Vai trò của vị ở các bài
+    for (const ing of f.thanh_phan) {
+      const herb = itemById.get(ing.id);
+      if (herb?.vai_tro) herb.vai_tro.push({ bai: f.id, ten_bai: f.ten, vai: ing.vai, viec: ing.viec });
+    }
+    // Họ bài thuốc: bài con khai báo "ho: bai-goc"; tự tính vị thêm/bớt so với bài gốc
+    const goc = f.refs.ho?.[0] && itemById.get(f.refs.ho[0]);
+    if (goc?.thanh_phan) {
+      const base = new Set(goc.thanh_phan.map((x) => x.id));
+      const mine = new Set(f.thanh_phan.map((x) => x.id));
+      f.so_voi_goc = {
+        goc: goc.id,
+        them: f.thanh_phan.filter((x) => !base.has(x.id)).map((x) => ({ id: x.id, ten: x.ten })),
+        bot: goc.thanh_phan.filter((x) => !mine.has(x.id)).map((x) => ({ id: x.id, ten: x.ten })),
+      };
+      (goc.ho_con ??= []).push(f.id);
+    }
+  }
+  // Ngược lại: chứng ↔ phép trị ↔ bài thuốc (để mỗi trang thấy những trang trỏ về nó)
+  for (const x of out) {
+    for (const f of ['phep_tri', 'bai_thuoc', 'chung']) {
+      for (const id of x.refs[f] ?? []) {
+        const target = itemById.get(id);
+        if (!target || target.id === x.id) continue;
+        const list = ((target.duoc_nhac ??= {})[x.loai] ??= []);
+        if (!list.includes(x.id)) list.push(x.id);
+      }
+    }
+  }
+  if (missingChu.size) warnings.push(`content/_data/chu.json: chưa giải nghĩa ${missingChu.size} chữ: ${[...missingChu].join(' ')}`);
+
   const site = readJson(join(root, 'content', '_data', 'site.json'));
   const danhThu = readJson(join(root, 'content', '_data', 'danh-thu.json'));
   const db = {
-    version: 1,
+    version: 2,
     generatedAt: new Date().toISOString(),
     site,
     types: Object.fromEntries(Object.entries(TYPES).map(([k, v]) => [k, v.label])),
     entries: out,
+    chu,
     danhThu,
     rules,
   };
 
   for (const w of warnings) log(`  cảnh báo: ${w}`);
   for (const er of errors) log(`  LỖI: ${er}`);
-  log(`MEDAI: ${out.length} mục, ${warnings.length} cảnh báo, ${errors.length} lỗi.`);
+  log(`MEDAI: ${out.length} mục, ${Object.keys(chu).length} chữ, ${warnings.length} cảnh báo, ${errors.length} lỗi.`);
 
   if (write && errors.length === 0) {
     mkdirSync(join(root, 'site', 'data'), { recursive: true });
