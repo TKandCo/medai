@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { build } from '../tools/build.mjs';
-import { parseFormulaText, analyzeFormula, levenshtein } from '../site/assets/phan-tich-core.js';
+import { parseFormulaText, analyzeFormula, levenshtein, ocrToList } from '../site/assets/phan-tich-core.js';
 
 const { db } = build({ write: false, log: () => {} });
 
@@ -40,4 +40,10 @@ test('Bắt được phản, thai kỵ, vị độc — kể cả tên gõ khôn
   assert.ok(pairs.includes('Cam thảo-Cam toại'));
   assert.ok(pairs.some((p) => p.includes('Bán hạ') && p.includes('Phụ tử')));
   assert.ok(r.canh_bao.doc.some((d) => d.vi === 'Phụ tử' && d.muc === 'rat-doc'));
+});
+
+test('Lọc chữ máy đọc từ ảnh: bỏ tiêu đề, sửa lỗi nhỏ, giữ dòng có liều', () => {
+  const r = ocrToList(['ĐƠN THUỐC', 'Họ tên: Nguyễn Văn A', 'Nhân sâm 12g', 'Bach truat 12g', 'Phuc lin 12g', 'Vị lạ 5g', 'Ngày 3 thang'].join('\n'), db);
+  assert.deepEqual(r.lines.map((l) => l.dong), ['Nhân sâm 12g', 'Bạch truật 12g', 'Phục linh 12g', 'Vị lạ 5g']);
+  assert.equal(r.nhan_ra, 3);
 });

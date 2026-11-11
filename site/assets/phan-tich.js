@@ -2,7 +2,63 @@
 // MEDAI suy ra công năng, tính chung, quy kinh, nhận diện bài gần giống, và kiểm tra cấm kỵ.
 // Ảnh chỉ hiển thị trên máy người dùng, không gửi đi đâu.
 
-import { analyzeFormula } from './phan-tich-core.js';
+import { analyzeFormula, ocrToList } from './phan-tich-core.js';
+
+// ---------- Đọc chữ trong ảnh (Tesseract.js, tệp nằm sẵn trong site/vendor, chỉ tải khi cần) ----------
+const VENDOR = new URL('../vendor/tesseract/', import.meta.url).href;
+const OCR_STEPS = {
+  'loading tesseract core': 'Đang tải bộ đọc chữ (chỉ lần đầu, khoảng 5 MB)…',
+  'initializing tesseract': 'Đang khởi động bộ đọc chữ…',
+  'loading language traineddata': 'Đang tải dữ liệu tiếng Việt…',
+  'loaded language traineddata': 'Đã có dữ liệu tiếng Việt.',
+  'initializing api': 'Đang chuẩn bị…',
+  'recognizing text': 'Đang đọc chữ trong ảnh…',
+};
+
+/** Làm ảnh dễ đọc hơn: phóng to ảnh nhỏ, chuyển xám, kéo giãn độ tương phản */
+function prepareImage(img) {
+  const longSide = Math.max(img.naturalWidth, img.naturalHeight);
+  const scale = longSide < 1400 ? 1400 / longSide : longSide > 2600 ? 2600 / longSide : 1;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(img.naturalWidth * scale);
+  canvas.height = Math.round(img.naturalHeight * scale);
+  const g = canvas.getContext('2d', { willReadFrequently: true });
+  g.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const data = g.getImageData(0, 0, canvas.width, canvas.height);
+  const px = data.data;
+  let lo = 255;
+  let hi = 0;
+  for (let i = 0; i < px.length; i += 4) {
+    const y = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+    px[i] = y;
+    if (y < lo) lo = y;
+    if (y > hi) hi = y;
+  }
+  const span = Math.max(1, hi - lo);
+  for (let i = 0; i < px.length; i += 4) {
+    const v = ((px[i] - lo) / span) * 255;
+    px[i] = px[i + 1] = px[i + 2] = v;
+  }
+  g.putImageData(data, 0, 0);
+  return canvas;
+}
+
+async function readImageText(img, onProgress) {
+  const Tesseract = (await import(`${VENDOR}tesseract.esm.min.js`)).default;
+  const worker = await Tesseract.createWorker('vie', 1, {
+    workerPath: `${VENDOR}worker.min.js`,
+    corePath: `${VENDOR}core/`,
+    langPath: `${VENDOR}lang/`,
+    workerBlobURL: false, // trang chặn worker từ blob:, nên nạp worker từ tệp cùng nguồn
+    logger: onProgress,
+  });
+  try {
+    const { data } = await worker.recognize(prepareImage(img));
+    return data.text;
+  } finally {
+    await worker.terminate();
+  }
+}
 
 const SAMPLE = 'Nhân sâm 12g\nBạch truật 12g\nPhục linh 12g\nChích thảo 6g\nThục địa 16g\nĐương quy 12g\nBạch thược 12g\nXuyên khung 8g\nSinh khương 3 lát\nĐại táo 5 quả';
 const AI_PROMPT = 'Hãy đọc đơn thuốc Đông y trong ảnh đính kèm. Liệt kê mỗi dòng một vị thuốc theo dạng: Tên vị thuốc (âm Hán Việt, tiếng Việt có dấu) rồi liều, giữ đơn vị như trong đơn. Nếu đơn viết bằng chữ Hán, hãy chuyển tên vị sang âm Hán Việt. Chữ nào không đọc được thì ghi [không rõ]. Chỉ trả về danh sách, không giải thích.';
@@ -19,7 +75,13 @@ export function pageAnalyze(ctx) {
         <h2>Ảnh đơn thuốc</h2>
         <label class="upload-btn"><input type="file" id="photo-input" accept="image/*" capture="environment">Chụp hoặc chọn ảnh</label>
         <figure class="photo-frame" id="photo-frame" hidden><img id="photo" alt="Ảnh đơn thuốc bạn vừa chọn"></figure>
-        <p class="muted small">Ảnh chỉ hiển thị trên máy bạn để đối chiếu khi gõ, <strong>không gửi đi đâu</strong>.</p>
+        <div class="ocr-box" id="ocr-box" hidden>
+          <button type="button" id="ocr-btn">Đọc chữ tự động</button>
+          <div class="progress" id="ocr-progress" hidden><div class="progress-bar" id="ocr-bar"></div></div>
+          <p class="small" id="ocr-status" aria-live="polite"></p>
+          <details class="ocr-raw" id="ocr-raw" hidden><summary>Xem toàn bộ chữ máy đọc được</summary><pre id="ocr-text"></pre></details>
+        </div>
+        <p class="muted small">Ảnh và chữ đọc được đều xử lý ngay trên máy bạn, <strong>không gửi đi đâu</strong>. Bộ đọc chữ đọc tốt chữ in rõ nét; chữ viết tay, chữ Hán thì nên nhờ trợ lý AI (bên dưới) hoặc tự gõ.</p>
         <details class="ai-help">
           <summary>Nhờ trợ lý AI bạn đang dùng đọc ảnh</summary>
           <p class="small">Mở trợ lý AI quen dùng (trên điện thoại hoặc máy tính), gửi ảnh đơn thuốc kèm lời nhắn dưới đây, rồi dán danh sách nhận được vào ô bên cạnh.</p>
@@ -130,7 +192,45 @@ export function mountAnalyze(root, ctx) {
     lastUrl = URL.createObjectURL(file);
     root.querySelector('#photo').src = lastUrl;
     root.querySelector('#photo-frame').hidden = false;
-    textarea.focus();
+    root.querySelector('#ocr-box').hidden = false;
+    root.querySelector('#ocr-status').textContent = '';
+    root.querySelector('#ocr-raw').hidden = true;
+  });
+
+  root.querySelector('#ocr-btn').addEventListener('click', async (ev) => {
+    const btn = ev.currentTarget;
+    const img = root.querySelector('#photo');
+    const status = root.querySelector('#ocr-status');
+    const bar = root.querySelector('#ocr-bar');
+    const progress = root.querySelector('#ocr-progress');
+    if (!img.complete || !img.naturalWidth) { status.textContent = 'Ảnh chưa tải xong, thử lại sau giây lát.'; return; }
+    btn.disabled = true;
+    progress.hidden = false;
+    bar.style.width = '0%';
+    status.textContent = 'Đang chuẩn bị…';
+    try {
+      const text = await readImageText(img, (m) => {
+        if (OCR_STEPS[m.status]) status.textContent = OCR_STEPS[m.status];
+        if (m.status === 'recognizing text') bar.style.width = `${Math.round((m.progress ?? 0) * 100)}%`;
+      });
+      bar.style.width = '100%';
+      root.querySelector('#ocr-text').textContent = text.trim() || '(không đọc được chữ nào)';
+      root.querySelector('#ocr-raw').hidden = false;
+      const list = ocrToList(text, ctx.DB);
+      if (!list.lines.length) {
+        status.textContent = 'Chưa đọc ra vị thuốc nào. Ảnh có thể bị mờ, nghiêng, hoặc là chữ viết tay — hãy chụp lại rõ hơn, nhờ trợ lý AI, hoặc tự gõ.';
+      } else {
+        textarea.value = list.text;
+        status.textContent = `Đã đọc ra ${list.lines.length} dòng, nhận ra ${list.nhan_ra} vị. Hãy đối chiếu với ảnh và sửa nếu sai, rồi xem kết quả bên dưới.`;
+        run();
+      }
+    } catch (err) {
+      status.textContent = 'Không chạy được bộ đọc chữ trên trình duyệt này. Hãy nhờ trợ lý AI hoặc tự gõ danh sách.';
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      setTimeout(() => { progress.hidden = true; }, 800);
+    }
   });
   root.querySelector('#copy-prompt').addEventListener('click', async () => {
     const msg = root.querySelector('#copy-msg');

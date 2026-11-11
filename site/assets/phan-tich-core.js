@@ -84,6 +84,23 @@ export function resolveHerb(name, herbIndex) {
   return best && !tie ? { ...best, cach: 'doan' } : null;
 }
 
+/**
+ * Lọc chữ do máy đọc từ ảnh thành danh sách vị: giữ dòng có tên vị nhận ra được (đưa về tên chuẩn),
+ * giữ dòng chưa nhận ra nhưng có liều (để người dùng tự sửa), bỏ các dòng khác (tiêu đề, tên người bệnh…).
+ */
+export function ocrToList(text, db) {
+  const herbIndex = buildHerbIndex(db, buildRuleIndex(db.rules));
+  const kept = [];
+  let dropped = 0;
+  for (const p of parseFormulaText(text)) {
+    const r = resolveHerb(p.ten, herbIndex);
+    if (r) kept.push({ dong: `${r.ten}${p.lieu_text ? ` ${p.lieu_text}` : ''}`, nhan_ra: true });
+    else if (p.lieu_text && p.ten.length <= 30) kept.push({ dong: `${p.ten} ${p.lieu_text}`, nhan_ra: false });
+    else dropped++;
+  }
+  return { lines: kept, text: kept.map((k) => k.dong).join('\n'), nhan_ra: kept.filter((k) => k.nhan_ra).length, bo_qua: dropped };
+}
+
 const TINH_SCORE = { 'Lạnh (hàn)': -2, 'Mát (lương)': -1, 'Bình': 0, 'Ấm (ôn)': 1, 'Nóng (nhiệt)': 2 };
 export function tinhLabel(score) {
   if (score <= -1.2) return 'lạnh (hàn)';

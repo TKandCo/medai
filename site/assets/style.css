@@ -463,3 +463,9 @@ button.ghost:hover { background: var(--surface-2); color: var(--ink); }
 .bar-val { font-weight: 600; color: var(--muted); font-size: 13px; min-width: 36px; text-align: right; }
 .herb-table td, .herb-table th { font-size: 15px; }
 @media (max-width: 760px) { .analyze-input { grid-template-columns: 1fr; } }
+
+/* Đọc chữ trong ảnh */
+.ocr-box { margin: 8px 0; display: grid; gap: 8px; }
+.ocr-box > button { justify-self: start; }
+.ocr-raw summary { cursor: pointer; font-size: 14px; color: var(--brand-strong); }
+.ocr-raw pre { white-space: pre-wrap; font-size: 13px; max-height: 220px; overflow: auto; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0 0; }
