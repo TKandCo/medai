@@ -466,6 +466,12 @@ button.ghost:hover { background: var(--surface-2); color: var(--ink); }
 
 /* Đọc chữ trong ảnh */
 .ocr-box { margin: 8px 0; display: grid; gap: 8px; }
+.ocr-box[hidden] { display: none; }
 .ocr-box > button { justify-self: start; }
 .ocr-raw summary { cursor: pointer; font-size: 14px; color: var(--brand-strong); }
 .ocr-raw pre { white-space: pre-wrap; font-size: 13px; max-height: 220px; overflow: auto; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0 0; }
+.upload-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.upload-btn-alt { background: var(--surface); color: var(--brand-strong); border: 1.5px solid var(--brand); }
+.upload-btn-alt:hover { background: var(--surface-2); color: var(--brand-strong); }
+.photo-box.drag-over { outline: 3px dashed var(--brand); outline-offset: -6px; }
+@media (pointer: coarse) { #photo-hint { display: none; } }
