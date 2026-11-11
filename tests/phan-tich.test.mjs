@@ -28,10 +28,11 @@ test('Nhận ra Bát trân thang khi gõ đủ 8 vị (có viết tắt, không 
   assert.equal(r.vi.find((v) => v.id === 'nhan-sam').vai, 'quân');
 });
 
-test('Không đoán bừa: "Sinh khương" không bị hiểu thành "Đinh hương"', () => {
-  const r = analyzeFormula('Sinh khương 3 lát', db);
-  assert.equal(r.vi.length, 0);
-  assert.equal(r.unknown[0].ten, 'Sinh khương');
+test('Không đoán bừa: "Sinh khương" ra đúng Gừng tươi, không bị hiểu thành "Đinh hương"', () => {
+  const r = analyzeFormula(['Sinh khương 3 lát', 'Xuyen tieu 3g'].join('\n'), db);
+  assert.equal(r.vi[0].id, 'sinh-khuong');
+  assert.ok(!r.vi.some((v) => v.id === 'dinh-huong'));
+  assert.equal(r.unknown[0].ten, 'Xuyen tieu');
 });
 
 test('Bắt được phản, thai kỵ, vị độc — kể cả tên gõ không dấu', () => {
