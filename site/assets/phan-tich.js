@@ -73,7 +73,11 @@ export function pageAnalyze(ctx) {
     <div class="analyze-input">
       <section class="photo-box">
         <h2>Ảnh đơn thuốc</h2>
-        <label class="upload-btn"><input type="file" id="photo-input" accept="image/*" capture="environment">Chụp hoặc chọn ảnh</label>
+        <div class="upload-row">
+          <label class="upload-btn"><input type="file" id="photo-camera" accept="image/*" capture="environment">Chụp ảnh</label>
+          <label class="upload-btn upload-btn-alt"><input type="file" id="photo-pick" accept="image/*">Chọn ảnh có sẵn</label>
+        </div>
+        <p class="small muted" id="photo-hint">Trên máy tính: có thể kéo thả ảnh vào khung này, hoặc dán ảnh (Ctrl+V).</p>
         <figure class="photo-frame" id="photo-frame" hidden><img id="photo" alt="Ảnh đơn thuốc bạn vừa chọn"></figure>
         <div class="ocr-box" id="ocr-box" hidden>
           <button type="button" id="ocr-btn">Đọc chữ tự động</button>
@@ -185,9 +189,8 @@ export function mountAnalyze(root, ctx) {
   root.querySelector('#use-sample').addEventListener('click', () => { textarea.value = SAMPLE; run(); });
 
   let lastUrl = null;
-  root.querySelector('#photo-input').addEventListener('change', (ev) => {
-    const file = ev.target.files?.[0];
-    if (!file) return;
+  const showPhoto = (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
     if (lastUrl) URL.revokeObjectURL(lastUrl);
     lastUrl = URL.createObjectURL(file);
     root.querySelector('#photo').src = lastUrl;
@@ -195,6 +198,18 @@ export function mountAnalyze(root, ctx) {
     root.querySelector('#ocr-box').hidden = false;
     root.querySelector('#ocr-status').textContent = '';
     root.querySelector('#ocr-raw').hidden = true;
+  };
+  for (const id of ['#photo-camera', '#photo-pick']) {
+    root.querySelector(id).addEventListener('change', (ev) => { showPhoto(ev.target.files?.[0]); ev.target.value = ''; });
+  }
+  // Máy tính: kéo thả ảnh vào khung, hoặc dán ảnh từ bộ nhớ tạm
+  const box = root.querySelector('.photo-box');
+  box.addEventListener('dragover', (ev) => { ev.preventDefault(); box.classList.add('drag-over'); });
+  box.addEventListener('dragleave', () => box.classList.remove('drag-over'));
+  box.addEventListener('drop', (ev) => { ev.preventDefault(); box.classList.remove('drag-over'); showPhoto(ev.dataTransfer?.files?.[0]); });
+  root.addEventListener('paste', (ev) => {
+    const item = [...(ev.clipboardData?.items ?? [])].find((i) => i.type.startsWith('image/'));
+    if (item) { ev.preventDefault(); showPhoto(item.getAsFile()); }
   });
 
   root.querySelector('#ocr-btn').addEventListener('click', async (ev) => {
