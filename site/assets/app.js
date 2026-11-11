@@ -4,6 +4,7 @@
 import { normalizeText, buildRuleIndex, checkHerbs, splitHerbList, slugify } from './core.js';
 import { pageLearn, pageTongue, mountTongue, pageThuyHoa, mountThuyHoa, pageDragon, mountDragon } from './hoc.js';
 import { pageQuiz, mountQuiz } from './on-luyen.js';
+import { pageAnalyze, mountAnalyze } from './phan-tich.js';
 
 let $main = document.getElementById('main');
 let DB = null;
@@ -145,7 +146,7 @@ function pageHome() {
         <a class="tile" href="#/hoc"><h3>Học bằng hình</h3><p>Nồi nước – Bếp lửa, Rồng về ổ, Lưỡi tự dựng.</p></a>
         <a class="tile" href="#/on-luyen"><h3>Ôn luyện</h3><p>Trò ghép đôi, thẻ ghi nhớ, câu đố — rèn từ Hán Việt và kiến thức Đông y.</p></a>
         <a class="tile" href="#/hoc/ngu-phap"><h3>Đọc tên chứng</h3><p>Ghép tên theo khuôn Ở đâu + Cái gì + Thế nào.</p></a>
-        <a class="tile" href="#/kiem-chung"><h3>Kiểm chứng lời đồn</h3><p>Đối chiếu một bài thuốc với các quy tắc cấm kỵ cổ điển.</p></a>
+        <a class="tile" href="#/kiem-chung"><h3>Phân tích bài thuốc</h3><p>Gõ hoặc nhìn ảnh đơn thuốc: biết công năng, tính chung, giống bài nào, có phạm cấm kỵ không.</p></a>
       </div>
     </section>
 
@@ -556,40 +557,6 @@ function mountGrammar(root) {
   render();
 }
 
-function pageCheck() {
-  setTitle('Kiểm chứng lời đồn');
-  const last = store('medai-kiem-chung') ?? '';
-  return `<h1>Kiểm chứng lời đồn</h1>
-    <p class="lead">Dán danh sách vị thuốc của một bài thuốc bạn nghe được. MEDAI đối chiếu với các quy tắc cấm kỵ cổ điển và cho biết vị nào đã có trong sổ cái.</p>
-    <form id="checkform" class="checkform">
-      <label for="herbs">Các vị thuốc (ngăn bằng dấu phẩy hoặc xuống dòng; có thể kèm liều)</label>
-      <textarea id="herbs" name="herbs" rows="5" placeholder="Ví dụ: Nhân sâm 10g, Ngũ linh chi 8g, Cam thảo 4g">${esc(last)}</textarea>
-      <button type="submit">Kiểm tra</button>
-    </form>
-    <div id="checkresult" aria-live="polite"></div>
-    <div class="notice notice-vang">Công cụ chỉ kiểm tra theo Thập bát phản, Thập cửu úy, danh sách thai kỵ và vị có độc trong sổ cái. “Không thấy cảnh báo” chưa có nghĩa bài thuốc hợp với bạn: còn phải đúng thể bệnh.</div>
-    ${redFlagsHtml()}`;
-}
-
-function runCheck(text) {
-  store('medai-kiem-chung', text);
-  const herbs = splitHerbList(text);
-  const box = document.getElementById('checkresult');
-  if (!herbs.length) { box.innerHTML = ''; return; }
-  const findEntry = (h) => {
-    const id = slugify(h);
-    return BY_ID.get(id) ?? DB.entries.find((x) => x.ten_khac.some((t) => slugify(t) === id));
-  };
-  const cb = checkHerbs(herbs.map((h) => findEntry(h)?.id ?? h), RULES);
-  const known = herbs.map((h) => {
-    const e = findEntry(h);
-    return e ? `<li><a href="#/m/${esc(e.id)}">${esc(e.ten)}</a> — ${esc(e.tom_tat)}</li>` : `<li>${esc(h)} — <span class="muted">chưa có trang trong sổ cái</span></li>`;
-  });
-  box.innerHTML = `<h2>Kết quả</h2>
-    ${cb.ok ? '<div class="notice notice-xanh">Không phát hiện cặp phản/úy, vị thai kỵ hay vị có độc trong danh sách.</div>' : `<div class="notice notice-do"><strong>Có điểm cần chú ý</strong>${warningsHtml(cb)}</div>`}
-    <h3>Các vị đã nhận ra</h3><ul>${known.join('')}</ul>`;
-}
-
 function redFlagsHtml() {
   return `<section class="redflags"><h2>Đi khám hoặc gọi 115 ngay khi có</h2><ul>${RED_FLAGS.map((r) => `<li>${esc(r)}</li>`).join('')}</ul></section>`;
 }
@@ -654,7 +621,7 @@ function route() {
   else if (parts[0] === 'on-luyen') { setTitle('Ôn luyện'); html = pageQuiz(); mount = (root) => mountQuiz(root, quizCtx()); }
   else if (parts[0] === 'm') html = pageEntry(parts[1]);
   else if (parts[0] === 'tim') html = pageSearch(params.get('q') ?? '');
-  else if (parts[0] === 'kiem-chung') html = pageCheck();
+  else if (parts[0] === 'kiem-chung') { setTitle('Kiểm chứng & phân tích bài thuốc'); html = pageAnalyze(quizCtx()); mount = (root) => mountAnalyze(root, quizCtx()); }
   else if (parts[0] === 'nguon') html = pageSources();
   else if (parts[0] === 'gioi-thieu') html = pageAbout();
   else html = pageNotFound();
@@ -679,9 +646,6 @@ document.addEventListener('submit', (ev) => {
   if (form.id === 'topsearch' || form.id === 'bigsearch') {
     ev.preventDefault();
     goSearch(form.q.value);
-  } else if (form.id === 'checkform') {
-    ev.preventDefault();
-    runCheck(form.herbs.value);
   }
 });
 
@@ -755,10 +719,6 @@ async function init() {
   repoLink.rel = 'noopener';
   document.querySelectorAll('[data-count]').forEach((el) => { el.textContent = count(el.dataset.count); });
   route();
-  if (location.hash.startsWith('#/kiem-chung')) {
-    const t = document.getElementById('herbs');
-    if (t?.value) runCheck(t.value);
-  }
 }
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {

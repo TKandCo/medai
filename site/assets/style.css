@@ -429,3 +429,43 @@ button.ghost:hover { background: var(--surface-2); color: var(--ink); }
 .chip[disabled] { opacity: .45; cursor: not-allowed; }
 @media (max-width: 640px) { .match { grid-template-columns: 1fr 1.25fr; gap: 8px; } .tile-btn { padding: 10px; font-size: 14.5px; } .tile-btn.right { font-size: 14px; } }
 @media (prefers-reduced-motion: reduce) { .tile-btn.shake { animation: none; } }
+
+/* ---------- Kiểm chứng & phân tích bài thuốc ---------- */
+.analyze-input { display: grid; grid-template-columns: minmax(260px, 1fr) 1.3fr; gap: 16px; margin: 18px 0; align-items: start; }
+.analyze-input h2 { font-size: 18px; margin: 0 0 8px; }
+.photo-box, .analyze-form { padding: 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.upload-btn { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 16px; border-radius: 10px; background: var(--brand); color: #fff; font-weight: 600; }
+.upload-btn:hover { background: var(--brand-strong); }
+.upload-btn input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.upload-btn:focus-within { outline: 3px solid #e2b48f; outline-offset: 2px; }
+.photo-frame { margin: 12px 0 6px; border-radius: 12px; overflow: auto; max-height: 460px; border: 1px solid var(--line); background: var(--surface-2); }
+.photo-frame img { display: block; width: 100%; height: auto; }
+.ai-help { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 8px; }
+.ai-help summary { cursor: pointer; font-weight: 600; color: var(--brand-strong); }
+.ai-help textarea { font-size: 14px; margin: 6px 0; background: var(--surface-2); }
+.analyze-form textarea { font-size: 16px; line-height: 1.6; min-height: 240px; }
+.form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.result-summary { padding: 16px 20px; border-radius: 16px; background: var(--surface); border: 1px solid #cfe2d8; border-left: 5px solid var(--brand); }
+.result-summary h3 { margin: 0 0 6px; color: var(--brand-strong); }
+.result-summary ul { margin: 0 0 6px; padding-left: 20px; }
+.result-summary li { margin: 5px 0; }
+.result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 14px 0; }
+.result-card { padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.result-card h3 { margin: 0 0 10px; font-size: 16px; }
+.meter { position: relative; height: 14px; border-radius: 999px; background: linear-gradient(90deg, #6aa6cf, #a9cde3 25%, #e9e4d3 50%, #f0bb8c 75%, #d9714a); margin: 18px 4px 6px; }
+.meter-mark { position: absolute; top: -7px; width: 4px; height: 28px; margin-left: -2px; border-radius: 2px; background: var(--ink); box-shadow: 0 0 0 2px var(--surface); }
+.meter-scale { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
+.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.bars li { display: grid; grid-template-columns: minmax(80px, 38%) 1fr auto; gap: 8px; align-items: center; font-size: 14px; }
+.bar-label { line-height: 1.3; }
+.bar-track { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.bar-fill { display: block; height: 100%; width: 0; background: var(--brand); border-radius: 999px; transition: width .4s; }
+.bar-val { font-weight: 600; color: var(--muted); font-size: 13px; min-width: 36px; text-align: right; }
+.herb-table td, .herb-table th { font-size: 15px; }
+@media (max-width: 760px) { .analyze-input { grid-template-columns: 1fr; } }
+
+/* Đọc chữ trong ảnh */
+.ocr-box { margin: 8px 0; display: grid; gap: 8px; }
+.ocr-box > button { justify-self: start; }
+.ocr-raw summary { cursor: pointer; font-size: 14px; color: var(--brand-strong); }
+.ocr-raw pre { white-space: pre-wrap; font-size: 13px; max-height: 220px; overflow: auto; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0 0; }

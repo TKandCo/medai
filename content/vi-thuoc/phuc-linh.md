@@ -1,7 +1,7 @@
 ---
 ten: Phục linh
 ten_han: 茯苓
-ten_khac: [Bạch linh]
+ten_khac: [Bạch linh, Bạch phục linh, Phục thần]
 ten_khoa_hoc: Poria cocos (Schw.) Wolf
 bo_phan_dung: Nấm mọc ký sinh trên rễ thông
 tom_tat: Vị ngọt nhạt, tính bình; thấm thấp, kiện Tỳ, làm yên Tâm — nhẹ nhàng, dùng được lâu.

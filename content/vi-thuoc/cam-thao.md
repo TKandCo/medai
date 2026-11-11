@@ -1,7 +1,7 @@
 ---
 ten: Cam thảo
 ten_han: 甘草
-ten_khac: [Quốc lão, Sinh cam thảo, Chích cam thảo]
+ten_khac: [Quốc lão, Sinh cam thảo, Chích cam thảo, Chích thảo, Cam thảo bắc]
 ten_khoa_hoc: Glycyrrhiza uralensis Fisch.
 bo_phan_dung: Rễ và thân rễ
 tom_tat: Vị ngọt, tính bình; bổ Tỳ ích khí, giải độc và điều hòa các vị trong bài thuốc.
