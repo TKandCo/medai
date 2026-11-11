@@ -1,10 +1,10 @@
 // Service worker: lưu sẵn khung web để dùng khi mất mạng.
 // Đổi VERSION mỗi khi sửa file trong site/assets để người dùng nhận bản mới.
-const VERSION = 'medai-v9';
+const VERSION = 'medai-v10';
 const SHELL = ['./', 'index.html', 'assets/style.css', 'assets/app.js', 'assets/core.js', 'assets/hoc.js', 'assets/on-luyen.js', 'assets/phan-tich.js', 'assets/phan-tich-core.js', 'assets/icon.svg', 'manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {
@@ -18,18 +18,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (event.request.method !== 'GET' || url.origin !== location.origin) return;
-  if (url.pathname.endsWith('/data/db.json')) {
-    // Dữ liệu: lấy bản mới nhất, mất mạng thì dùng bản đã lưu.
-    event.respondWith(
-      fetch(event.request)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(VERSION).then((c) => c.put(event.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(event.request)),
-    );
-    return;
-  }
-  event.respondWith(caches.match(event.request).then((hit) => hit || fetch(event.request)));
+  // Mọi tệp của web: lấy bản mới nhất từ mạng (bỏ qua bộ nhớ đệm cũ của trình duyệt),
+  // mất mạng thì dùng bản đã lưu. Nhờ vậy sửa lỗi xong là người dùng nhận ngay.
+  // Riêng bộ đọc chữ (vendor) rất nặng: không lưu ở đây.
+  if (url.pathname.includes('/vendor/')) return; // để trình duyệt tự lo, không chép vào bộ nhớ của web
+  event.respondWith(
+    fetch(event.request, { cache: 'no-cache' })
+      .then((res) => {
+        if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(event.request, copy)); }
+        return res;
+      })
+      .catch(() => caches.match(event.request, { ignoreSearch: true })),
+  );
 });

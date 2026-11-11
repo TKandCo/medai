@@ -722,7 +722,13 @@ async function init() {
 }
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  // Có bản mới thì tải lại trang một lần để dùng ngay (chỉ khi trước đó đã có bản cũ).
+  const hadOld = Boolean(navigator.serviceWorker.controller);
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadOld && !reloaded) { reloaded = true; location.reload(); }
+  });
+  navigator.serviceWorker.register('sw.js').then((reg) => reg.update()).catch(() => {});
 }
 
 init();

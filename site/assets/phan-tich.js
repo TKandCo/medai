@@ -190,7 +190,12 @@ export function mountAnalyze(root, ctx) {
 
   let lastUrl = null;
   const showPhoto = (file) => {
-    if (!file || !file.type.startsWith('image/')) return;
+    if (!file) return;
+    // Một số thư viện ảnh trên Android trả về tệp không ghi loại (type rỗng) — vẫn nhận.
+    if (file.type && !file.type.startsWith('image/')) {
+      root.querySelector('#ocr-status').textContent = 'Tệp này không phải ảnh. Hãy chọn ảnh JPG hoặc PNG.';
+      return;
+    }
     if (lastUrl) URL.revokeObjectURL(lastUrl);
     lastUrl = URL.createObjectURL(file);
     root.querySelector('#photo').src = lastUrl;
