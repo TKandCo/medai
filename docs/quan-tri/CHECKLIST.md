@@ -30,6 +30,8 @@ MEDAI không lập phòng ban: theo định hướng của chủ dự án, đây
 
 ## Đang làm
 
+- [x] Áp dụng Tiêu chuẩn code chung v1.0, hạng A (chủ dự án duyệt 13/11/2026); tự chấm 71 quy tắc bắt buộc ở [TU_CHAM_TIEU_CHUAN.md](TU_CHAM_TIEU_CHUAN.md) — chờ CP kiểm lại
+
 - [x] CP audit đợt 1 (13/11/2026): 18 phát hiện, đã xử lý 17, còn 1 chờ mở sách — xem mục 5 báo cáo
 
 - [ ] Xác nhận chọn ảnh từ thư viện chạy được trên điện thoại thật — chờ chủ dự án thử sau PR #7 (**chưa kiểm**)
