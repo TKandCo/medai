@@ -2,7 +2,7 @@
 // MEDAI suy ra công năng, tính chung, quy kinh, nhận diện bài gần giống, và kiểm tra cấm kỵ.
 // Ảnh chỉ hiển thị trên máy người dùng, không gửi đi đâu.
 
-import { analyzeFormula, ocrToList } from './phan-tich-core.js';
+import { analyzeFormula, ocrToList, adaptiveBinarize } from './phan-tich-core.js';
 
 // ---------- Đọc chữ trong ảnh (Tesseract.js, tệp nằm sẵn trong site/vendor, chỉ tải khi cần) ----------
 const VENDOR = new URL('../vendor/tesseract/', import.meta.url).href;
@@ -18,7 +18,7 @@ const OCR_STEPS = {
 /** Làm ảnh dễ đọc hơn: phóng to ảnh nhỏ, chuyển xám, kéo giãn độ tương phản */
 function prepareImage(img) {
   const longSide = Math.max(img.naturalWidth, img.naturalHeight);
-  const scale = longSide < 1400 ? 1400 / longSide : longSide > 2600 ? 2600 / longSide : 1;
+  const scale = longSide < 1600 ? 1600 / longSide : longSide > 2400 ? 2400 / longSide : 1;
   const canvas = document.createElement('canvas');
   canvas.width = Math.round(img.naturalWidth * scale);
   canvas.height = Math.round(img.naturalHeight * scale);
@@ -26,19 +26,11 @@ function prepareImage(img) {
   g.drawImage(img, 0, 0, canvas.width, canvas.height);
   const data = g.getImageData(0, 0, canvas.width, canvas.height);
   const px = data.data;
-  let lo = 255;
-  let hi = 0;
-  for (let i = 0; i < px.length; i += 4) {
-    const y = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-    px[i] = y;
-    if (y < lo) lo = y;
-    if (y > hi) hi = y;
-  }
-  const span = Math.max(1, hi - lo);
-  for (let i = 0; i < px.length; i += 4) {
-    const v = ((px[i] - lo) / span) * 255;
-    px[i] = px[i + 1] = px[i + 2] = v;
-  }
+  const gray = new Uint8ClampedArray(canvas.width * canvas.height);
+  for (let i = 0, k = 0; i < px.length; i += 4, k++) gray[k] = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+  // Đen trắng theo từng vùng: ảnh chụp có bóng, lóa, giấy ngả màu vẫn tách được chữ
+  const bw = adaptiveBinarize(gray, canvas.width, canvas.height);
+  for (let i = 0, k = 0; i < px.length; i += 4, k++) px[i] = px[i + 1] = px[i + 2] = bw[k];
   g.putImageData(data, 0, 0);
   return canvas;
 }
@@ -241,7 +233,7 @@ export function mountAnalyze(root, ctx) {
         status.textContent = 'Chưa đọc ra vị thuốc nào. Ảnh có thể bị mờ, nghiêng, hoặc là chữ viết tay — hãy chụp lại rõ hơn, nhờ trợ lý AI, hoặc tự gõ.';
       } else {
         textarea.value = list.text;
-        status.textContent = `Đã đọc ra ${list.lines.length} dòng, nhận ra ${list.nhan_ra} vị. Hãy đối chiếu với ảnh và sửa nếu sai, rồi xem kết quả bên dưới.`;
+        status.textContent = `Đã đọc ra ${list.lines.length} dòng, nhận ra ${list.nhan_ra} vị.${list.thieu_lieu ? ` Có ${list.thieu_lieu} vị chưa đọc được liều — hãy nhìn ảnh và điền thêm.` : ''}${list.nghi_lieu.length ? ` Liều có vẻ đọc sai, kiểm lại: ${list.nghi_lieu.join('; ')}.` : ''} Hãy đối chiếu với ảnh và sửa nếu sai, rồi xem kết quả bên dưới.`;
         run();
       }
     } catch (err) {

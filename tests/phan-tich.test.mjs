@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { build } from '../tools/build.mjs';
-import { parseFormulaText, analyzeFormula, levenshtein, ocrToList } from '../site/assets/phan-tich-core.js';
+import { parseFormulaText, analyzeFormula, levenshtein, ocrToList, adaptiveBinarize } from '../site/assets/phan-tich-core.js';
 
 const { db } = build({ write: false, log: () => {} });
 
@@ -47,4 +47,22 @@ test('Lọc chữ máy đọc từ ảnh: bỏ tiêu đề, sửa lỗi nhỏ, g
   const r = ocrToList(['ĐƠN THUỐC', 'Họ tên: Nguyễn Văn A', 'Nhân sâm 12g', 'Bach truat 12g', 'Phuc lin 12g', 'Vị lạ 5g', 'Ngày 3 thang'].join('\n'), db);
   assert.deepEqual(r.lines.map((l) => l.dong), ['Nhân sâm 12g', 'Bạch truật 12g', 'Phục linh 12g', 'Vị lạ 5g']);
   assert.equal(r.nhan_ra, 3);
+});
+
+test('Ảnh chụp: liều đọc sai vẫn giữ tên vị, giữ tên khác như đã viết, bỏ số trơn', () => {
+  const r = ocrToList(['Họ tên: Lê Thị C Tuổi 52', 'Hoàng kỳ lóg', 'Phục thần 12g', ': Long nhãn 10g', 'sắc 3 bát còn 1'].join('\n'), db);
+  assert.deepEqual(r.lines.map((l) => l.dong), ['Hoàng kỳ', 'Phục thần 12g', 'Long nhãn 10g']);
+  assert.equal(r.thieu_lieu, 1);
+  assert.deepEqual(ocrToList('Bạch truật 120 .', db).nghi_lieu, ['Bạch truật 120']);
+});
+
+test('Đen trắng theo vùng: chữ trong vùng tối vẫn tách khỏi nền', () => {
+  // Ảnh 40x10: nửa trái sáng (200), nửa phải tối (80); mỗi nửa có một nét chữ tối hơn nền 60
+  const w = 40, h = 10, g = new Uint8ClampedArray(w * h);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) g[y * w + x] = (x < 20 ? 200 : 80) - (x === 10 || x === 30 ? 60 : 0);
+  const bw = adaptiveBinarize(g, w, h, { window: 9 });
+  assert.equal(bw[5 * w + 10], 0);
+  assert.equal(bw[5 * w + 30], 0);
+  assert.equal(bw[5 * w + 5], 255);
+  assert.equal(bw[5 * w + 35], 255);
 });

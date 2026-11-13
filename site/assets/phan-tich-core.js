@@ -56,7 +56,7 @@ export function levenshtein(a, b) {
 export function buildHerbIndex(db, ruleIndex) {
   const names = [];
   for (const e of db.entries.filter((x) => x.loai === 'vi-thuoc')) {
-    for (const t of [e.ten, ...(e.ten_khac ?? [])]) names.push({ key: normalizeText(t), id: e.id, ten: e.ten, inBook: true });
+    for (const t of [e.ten, ...(e.ten_khac ?? [])]) names.push({ key: normalizeText(t), id: e.id, ten: e.ten, ten_goc: t, inBook: true });
   }
   for (const [id, ten] of ruleIndex.names) {
     if (!names.some((n) => n.id === id)) names.push({ key: normalizeText(ten), id, ten, inBook: false });
@@ -91,14 +91,67 @@ export function resolveHerb(name, herbIndex) {
 export function ocrToList(text, db) {
   const herbIndex = buildHerbIndex(db, buildRuleIndex(db.rules));
   const kept = [];
+  const byHerb = new Map();
   let dropped = 0;
-  for (const p of parseFormulaText(text)) {
-    const r = resolveHerb(p.ten, herbIndex);
-    if (r) kept.push({ dong: `${r.ten}${p.lieu_text ? ` ${p.lieu_text}` : ''}`, nhan_ra: true });
-    else if (p.lieu_text && p.ten.length <= 30) kept.push({ dong: `${p.ten} ${p.lieu_text}`, nhan_ra: false });
-    else dropped++;
+  let thieu_lieu = 0;
+  const nghi_lieu = [];
+  // Máy đọc hay dính ký tự rác ở đầu dòng (": ", "| ", "'"): bỏ trước khi nhận tên
+  const clean = String(text ?? '').split('\n').map((l) => l.replace(/^[^\p{L}\d]+/u, '').replace(/[\s.,:;'"|]+$/u, '')).join('\n');
+  for (const p of parseFormulaText(clean)) {
+    let r = resolveHerb(p.ten, herbIndex);
+    let lieu = p.lieu_text;
+    if (!r) {
+      // Liều đọc sai thành chữ ("16g" → "lóg"): bỏ từ cuối rồi nhận lại tên, để người dùng tự điền liều
+      const words = p.ten.split(' ');
+      if (words.length > 1 && words.at(-1).length <= 5) {
+        r = resolveHerb(words.slice(0, -1).join(' '), herbIndex);
+        if (r) lieu = '';
+      }
+    }
+    if (r) {
+      const dong = `${r.ten_goc ?? r.ten}${lieu ? ` ${lieu}` : ''}`;
+      // Liều quá lớn cho một vị (thường do máy đọc "12g" thành "120"): báo người dùng xem lại
+      if (lieu && p.lieu_g > 60) nghi_lieu.push(dong);
+      const prev = byHerb.get(r.id);
+      if (!prev) { const k = { dong, nhan_ra: true, co_lieu: Boolean(lieu) }; byHerb.set(r.id, k); kept.push(k); }
+      else if (!prev.co_lieu && lieu) Object.assign(prev, { dong, co_lieu: true }); // cùng vị đọc hai lần: giữ dòng có liều
+      else dropped++;
+    } else if (/\p{L}/u.test(p.lieu_text) && p.ten.length <= 30) {
+      // Chưa nhận ra tên nhưng có liều kèm đơn vị (12g, 3 chỉ, 3 lát): giữ để người dùng tự sửa.
+      // Số trơn ("Tuổi 52", "còn 1") thường không phải vị thuốc nên bỏ.
+      kept.push({ dong: `${p.ten} ${p.lieu_text}`, nhan_ra: false, co_lieu: true });
+    } else dropped++;
   }
-  return { lines: kept, text: kept.map((k) => k.dong).join('\n'), nhan_ra: kept.filter((k) => k.nhan_ra).length, bo_qua: dropped };
+  thieu_lieu = kept.filter((k) => k.nhan_ra && !k.co_lieu).length;
+  return { lines: kept, text: kept.map((k) => k.dong).join('\n'), nhan_ra: kept.filter((k) => k.nhan_ra).length, thieu_lieu, nghi_lieu, bo_qua: dropped };
+}
+
+/**
+ * Đổi ảnh xám sang đen trắng theo từng vùng (cách Bradley): mỗi điểm so với độ sáng trung bình
+ * quanh nó, nên chỗ bóng tối hay chỗ lóa vẫn tách được chữ — hợp với ảnh chụp bằng điện thoại.
+ * gray: mảng độ sáng 0–255, dài w*h. Trả về mảng mới: 0 = chữ, 255 = nền.
+ */
+export function adaptiveBinarize(gray, w, h, { window = Math.max(15, Math.round(Math.max(w, h) / 24)), t = 0.15 } = {}) {
+  const sum = new Float64Array((w + 1) * (h + 1));
+  for (let y = 0; y < h; y++) {
+    let row = 0;
+    for (let x = 0; x < w; x++) {
+      row += gray[y * w + x];
+      sum[(y + 1) * (w + 1) + x + 1] = sum[y * (w + 1) + x + 1] + row;
+    }
+  }
+  const half = Math.floor(window / 2);
+  const out = new Uint8ClampedArray(w * h);
+  for (let y = 0; y < h; y++) {
+    const y0 = Math.max(0, y - half), y1 = Math.min(h - 1, y + half);
+    for (let x = 0; x < w; x++) {
+      const x0 = Math.max(0, x - half), x1 = Math.min(w - 1, x + half);
+      const count = (x1 - x0 + 1) * (y1 - y0 + 1);
+      const s = sum[(y1 + 1) * (w + 1) + x1 + 1] - sum[y0 * (w + 1) + x1 + 1] - sum[(y1 + 1) * (w + 1) + x0] + sum[y0 * (w + 1) + x0];
+      out[y * w + x] = gray[y * w + x] * count <= s * (1 - t) ? 0 : 255;
+    }
+  }
+  return out;
 }
 
 const TINH_SCORE = { 'Lạnh (hàn)': -2, 'Mát (lương)': -1, 'Bình': 0, 'Ấm (ôn)': 1, 'Nóng (nhiệt)': 2 };
