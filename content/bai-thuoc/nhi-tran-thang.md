@@ -13,7 +13,7 @@ chu_tri:
 cach_dung: Tán bột, mỗi lần sắc với 7 lát gừng tươi và 1 quả ô mai (theo Cục phương; cần đối chiếu)
 thanh_phan:
   - Bán hạ | quân | 5 lạng | Táo thấp hóa đàm, giáng nghịch cầm nôn
-  - Trần bì | thần | 5 lạng | Lý khí: khí thuận thì đờm tự tan
+  - Trần bì | thần | 5 lạng | Lý khí: khí thuận thì đờm tự tan — nguyên văn Cục phương ghi Quất hồng (vỏ ngoài quả quýt), nay thường dùng Trần bì
   - Phục linh | tá | 3 lạng | Kiện Tỳ thấm thấp — cắt nguồn sinh đờm
   - Sinh khương | tá | 7 lát | Giảm độc Bán hạ, giúp hóa đàm, cầm nôn
   - Ô mai | tá | 1 quả | Thu liễm, để thuốc tán đờm không làm hao Phế khí
@@ -38,3 +38,5 @@ nguon:
 ## Khi nào không hợp
 
 Ho khan ít đờm, họng khô, đờm dính có máu (âm hư) thì bài này quá khô, không hợp. Bán hạ là vị có độc, phải dùng dạng đã chế.
+
+**Có thai:** bài có Bán hạ — vị phải thận trọng khi có thai. Không tự dùng.

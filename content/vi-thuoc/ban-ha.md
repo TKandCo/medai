@@ -15,6 +15,7 @@ cong_nang:
   - Tiêu bĩ tán kết
 doc_tinh: Củ sống gây ngứa rát, sưng họng, khàn tiếng; dùng sống có thể nguy hiểm.
 bao_che: Chỉ dùng dạng đã chế với gừng, phèn chua hoặc vôi (Khương bán hạ, Pháp bán hạ) — cần đối chiếu cách chế theo danh thư
+lieu: Chỉ dùng dạng đã chế, theo chỉ định của thầy thuốc (cần đối chiếu liều theo danh thư)
 kieng_ky:
   - Âm hư ho khan, đờm dính có máu
   - Có thai phải thận trọng
@@ -23,7 +24,7 @@ muc_an_toan: vang
 trang_thai: nhap
 lien_quan: [nhi-tran-thang, sinh-khuong]
 nguon:
-  - Hải Thượng Y Tông Tâm Lĩnh · Dược phẩm vựng yếu · cần ghi quyển, trang
+  - Hải Thượng Y Tông Tâm Lĩnh · Dược phẩm vựng yếu · chưa xác nhận có mục riêng cho vị này, cần ghi quyển, trang
   - Đỗ Tất Lợi · Những cây thuốc và vị thuốc Việt Nam · cần ghi trang
 ---
 

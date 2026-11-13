@@ -4,7 +4,7 @@ ten_han: 平胃散
 ten_khac: [Bình vị]
 tom_tat: Làm khô thấp, kiện Tỳ, hành khí, hòa Vị — bài gốc cho thấp trệ ở Tỳ Vị: bụng đầy, ăn không tiêu, rêu lưỡi trắng dày.
 nhom: Hóa thấp
-xuat_xu: Thái bình huệ dân hòa tễ cục phương (đời Tống)
+xuat_xu: Giản yếu tế chúng phương (đời Bắc Tống); phổ biến qua Thái bình huệ dân hòa tễ cục phương — cần đối chiếu
 hinh_anh: Ruộng úng nước: khơi rãnh cho ráo (Thương truật), xới cho đất tơi (Hậu phác, Trần bì).
 chu_tri:
   - Thấp trệ Tỳ Vị — bụng trên đầy trướng, ăn không biết ngon
@@ -12,10 +12,10 @@ chu_tri:
   - Đi lỏng; rêu lưỡi trắng nhớt và dày, mạch hoãn
 cach_dung: Tán bột, sắc với gừng tươi và đại táo (theo Cục phương; cần đối chiếu)
 thanh_phan:
-  - Thương truật | quân | cần đối chiếu | Táo thấp kiện Tỳ — vị chính
-  - Hậu phác | thần | cần đối chiếu | Hành khí trừ đầy, giúp hóa thấp
-  - Trần bì | tá | cần đối chiếu | Lý khí hòa Vị
-  - Chích cam thảo | sứ | cần đối chiếu | Điều hòa các vị
+  - Thương truật | quân | 5 cân (Cục phương) | Táo thấp kiện Tỳ — vị chính
+  - Hậu phác | thần | 3 cân 2 lạng (Cục phương) | Hành khí trừ đầy, giúp hóa thấp
+  - Trần bì | tá | 3 cân 2 lạng (Cục phương) | Lý khí hòa Vị
+  - Chích cam thảo | sứ | 30 lạng (Cục phương) | Điều hòa các vị
   - Sinh khương | sứ | cần đối chiếu | Hòa Vị
   - Đại táo | sứ | cần đối chiếu | Hòa Vị
 bo_vi:

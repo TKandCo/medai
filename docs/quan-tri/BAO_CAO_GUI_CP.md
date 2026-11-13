@@ -40,7 +40,33 @@ Ngày: 13/11/2026. Nguồn: repo `D:\MEDAI` (nhánh `main` tại commit `ad6aac1
 
 | Đợt | Phạm vi | Người kiểm | Ngày | Kết quả |
 |---|---|---|---|---|
-| 1 | 22 vị thuốc + 12 bài thuốc (PR #5), `rules/` | CP | — | Chưa làm |
+| 1 | 22 vị thuốc + 12 bài thuốc (PR #5), `rules/` | CP | 13/11/2026 | 4 Cao · 6 Vừa · 8 Thấp — đã xử lý, xem dưới |
+
+**Giới hạn của đợt 1 (CP tự ghi):** CP cũng là Claude, cùng mô hình với phiên viết, nên không độc lập tuyệt đối và có thể chung điểm mù. CP đối chiếu theo giáo trình và nguyên văn danh thư **dựa trên trí nhớ của mô hình, không mở sách**. Vì vậy không trang nào được nâng lên "đã đối chiếu" nhờ đợt này; chỗ sửa theo audit vẫn ghi "cần đối chiếu" khi chưa chắc. Biên bản gốc: `D:\CLAUDE PROJECTS\audit\medai-dot1-2026-11-13.md` (ngoài repo).
+
+**Xử lý từng phát hiện** (nhánh `sua-theo-audit-dot1`):
+
+| # | Mức | Phát hiện | Xử lý |
+|---|---|---|---|
+| 1 | Cao | 5 bài có vị thai kỵ thiếu cảnh báo trong trang | Đã sửa cả 5 và thêm Bát vị hoàn (test mới bắt được). Thêm test: bài có vị thai kỵ phải ghi "có thai" trong trang. Web vốn đã tự hiện cảnh báo từ `rules/` |
+| 2 | Cao | Hữu quy: Phụ tử chưa ghi dạng chế | Đã sửa: "Chế phụ tử" |
+| 3 | Cao | Tả quy: chủ trị di tinh nhưng có Ngưu tất | Đã ghi "di tinh thì bỏ Ngưu tất" ở chủ trị và thành phần (cần đối chiếu) |
+| 4 | Cao | Mộc hương: thiếu cảnh báo nhầm *Aristolochia* | Đã thêm kiêng kỵ và mục "Cẩn thận nhầm cây" |
+| 5 | Vừa | Hữu quy: phân lỏng nhưng có Đương quy | Đã ghi "đi lỏng thì bỏ Đương quy" (cần đối chiếu) |
+| 6 | Vừa | Hữu quy: Câu kỷ 3 hay 4 lạng | **Chưa sửa** — phiên viết nhớ 3 lạng, CP nhớ 4 lạng; ghi "cần đối chiếu — có bản ghi 4 lạng" cho đến khi mở sách |
+| 7 | Vừa | Bào khương không phải tên khác của Can khương | Đã bỏ khỏi tên khác, giải thích trong trang |
+| 8 | Vừa | Quy bản giao là chế phẩm; tính hơi hàn | Đã bỏ khỏi tên khác; tính đổi thành "Hơi hàn" |
+| 9 | Vừa | Cúc hoa vàng (*C. indicum*) là Dã cúc hoa | Đã bỏ tên khác sai, tách rõ hai vị trong trang |
+| 10 | Vừa | Tả quy dùng Xuyên ngưu tất, khác Hoài ngưu tất | Ghi chú trong bài và trang Ngưu tất; vẫn trỏ về Ngưu tất để cảnh báo thai kỵ còn chạy (chưa có trang Xuyên ngưu tất) |
+| 11 | Thấp | Quy kinh / vị thiếu | Đã thêm: Can khương–Thận, Mộc hương–Tam tiêu, Đại táo–Tâm, Ngưu tất–vị ngọt |
+| 12 | Thấp | Nhị trần: nguyên văn là Quất hồng | Đã ghi chú |
+| 13 | Thấp | Ngọc bình phong: xuất xứ, liều | Đã sửa xuất xứ, điền liều theo Đan Khê (cần đối chiếu) |
+| 14 | Thấp | Bình vị: xuất xứ, liều | Đã sửa xuất xứ, điền liều Cục phương |
+| 15 | Thấp | Kỷ cúc: liều Câu kỷ, Cúc hoa | Đã điền 3 phần (cần đối chiếu) |
+| 16 | Thấp | "Lãn Ông học theo nhiều nhất" chưa có nguồn | Đã sửa câu, nhắc cả Phùng Triệu Trương |
+| 17 | Thấp | 22 vị dùng chung khuôn nguồn | Đã ghi "chưa xác nhận có mục riêng cho vị này" |
+| 18 | Thấp | Bán hạ chưa có trường liều | Đã thêm (theo thầy thuốc, cần đối chiếu) |
+
 
 ## 6. Checklist theo người giữ việc
 
@@ -57,7 +83,7 @@ Chi tiết trong [CHECKLIST.md](CHECKLIST.md). Tóm tắt:
 
 1. **Nội dung chưa đối chiếu:** 0/105 trang "đã đối chiếu"; `rules/` cũng là nháp. Người đọc có thể tin nhầm liều hoặc thành phần.
 2. **Rủi ro người đọc tự dùng thuốc:** web có nhãn "Không tự dùng" cho 7 trang mức đỏ, nhãn "Bản nháp", dòng nhắc đi khám (115) ở cuối trang. Xem xét pháp lý về thông tin sức khỏe: **chưa kiểm**.
-3. **Audit độc lập mới được giao** cho CP, chưa có kết quả đợt nào (mục 5).
+3. **Audit độc lập** do CP giữ: đợt 1 xong, nhưng CP cùng mô hình với phiên viết và không mở sách — chưa thay được đối chiếu bằng sách thật (mục 5).
 4. **Chỉ một người giữ tài khoản** GitHub và tên miền; chưa có phương án khi người đó vắng.
 5. **Chưa khôi phục thử** từ sao lưu.
 6. Bản quyền: bản dịch hiện đại chỉ trích ngắn có nguồn; nguyên văn Hán thuộc phạm vi công cộng (`LICENSE-CONTENT.md`). Rà toàn bộ trích dẫn: **chưa kiểm**.

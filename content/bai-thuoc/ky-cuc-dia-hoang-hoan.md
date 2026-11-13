@@ -18,8 +18,8 @@ thanh_phan:
   - Thục địa | quân | 8 phần | Tư Thận âm, bổ tinh huyết
   - Sơn thù du | thần | 4 phần | Dưỡng Can, giữ tinh
   - Hoài sơn | thần | 4 phần | Bổ Tỳ, giữ tinh
-  - Câu kỷ tử | thần | cần đối chiếu | Tư bổ Can Thận, sáng mắt
-  - Cúc hoa | tá | cần đối chiếu | Bình Can, làm mát và sáng mắt
+  - Câu kỷ tử | thần | 3 phần (cần đối chiếu) | Tư bổ Can Thận, sáng mắt
+  - Cúc hoa | tá | 3 phần (cần đối chiếu) | Bình Can, làm mát và sáng mắt
   - Trạch tả | tá | 3 phần | Xả trọc thấp ở Thận
   - Đan bì | tá | 3 phần | Làm mát hỏa ở Can
   - Phục linh | tá | 3 phần | Thấm thấp, giúp Tỳ

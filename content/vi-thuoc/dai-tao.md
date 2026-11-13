@@ -8,7 +8,7 @@ tom_tat: Vị ngọt, tính ấm; bổ Tỳ Vị, dưỡng huyết an thần, l�
 nhom: Bổ khí
 tinh: Ôn
 vi: Ngọt
-quy_kinh: [Tỳ, Vị]
+quy_kinh: [Tỳ, Vị, Tâm]
 cong_nang:
   - Bổ trung ích khí
   - Dưỡng huyết an thần
@@ -20,7 +20,7 @@ muc_an_toan: xanh
 trang_thai: nhap
 lien_quan: [sinh-khuong, quy-ty-thang]
 nguon:
-  - Hải Thượng Y Tông Tâm Lĩnh · Dược phẩm vựng yếu · cần ghi quyển, trang
+  - Hải Thượng Y Tông Tâm Lĩnh · Dược phẩm vựng yếu · chưa xác nhận có mục riêng cho vị này, cần ghi quyển, trang
   - Đỗ Tất Lợi · Những cây thuốc và vị thuốc Việt Nam · cần ghi trang
 ---
 

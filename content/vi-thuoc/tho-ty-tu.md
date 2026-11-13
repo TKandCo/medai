@@ -21,7 +21,7 @@ muc_an_toan: xanh
 trang_thai: nhap
 lien_quan: [ta-quy-hoan, huu-quy-hoan]
 nguon:
-  - Hải Thượng Y Tông Tâm Lĩnh · Dược phẩm vựng yếu · cần ghi quyển, trang
+  - Hải Thượng Y Tông Tâm Lĩnh · Dược phẩm vựng yếu · chưa xác nhận có mục riêng cho vị này, cần ghi quyển, trang
   - Đỗ Tất Lợi · Những cây thuốc và vị thuốc Việt Nam · cần ghi trang
 ---
 

@@ -43,3 +43,5 @@ Bản trong Kim quỹ dùng Can địa hoàng và Quế chi; các bản đời s
 Âm hư hỏa vượng (nồi cạn thật sự): Lãn Ông cảnh báo đem Quế Phụ xen vào thuốc âm lúc ấy "khác gì khi nước cạn đá mới trơ ra". Phải phân biệt kỹ với [[long-hoa-bay-len]].
 
 Bài có Phụ tử là vị độc: không tự dùng.
+
+**Có thai:** bài có Phụ tử, Nhục quế — vị phải thận trọng khi có thai. Không tự dùng.

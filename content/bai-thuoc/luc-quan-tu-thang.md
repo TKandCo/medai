@@ -37,3 +37,5 @@ nguon:
 ## Khi nào không hợp
 
 Đờm vàng đặc, miệng đắng, rêu vàng (đàm nhiệt), hoặc âm hư ho khan thì không hợp.
+
+**Có thai:** bài có Bán hạ — vị phải thận trọng khi có thai. Không tự dùng.

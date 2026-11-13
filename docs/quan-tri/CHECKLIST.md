@@ -30,11 +30,13 @@ MEDAI không lập phòng ban: theo định hướng của chủ dự án, đây
 
 ## Đang làm
 
+- [x] CP audit đợt 1 (13/11/2026): 18 phát hiện, đã xử lý 17, còn 1 chờ mở sách — xem mục 5 báo cáo
+
 - [ ] Xác nhận chọn ảnh từ thư viện chạy được trên điện thoại thật — chờ chủ dự án thử sau PR #7 (**chưa kiểm**)
 
 ## Sẽ làm
 
-- [ ] CP audit đợt đầu: 22 vị thuốc + 12 bài thuốc nạp ngày 11/11/2026 (PR #5), và `rules/`
+- [ ] Mở sách xác nhận các điểm audit đợt 1 còn ghi "cần đối chiếu" (nhất là liều Câu kỷ trong Hữu quy hoàn)
 
 - [ ] Đối chiếu từng trang với bản gốc, ghi quyển/trang; hiện **0/105** trang ở trạng thái "đã đối chiếu"
 - [ ] Đối chiếu `rules/` với *Tọa thảo lương mô* và *Dược phẩm vựng yếu*

@@ -39,3 +39,5 @@ nguon:
 ## Khi nào không hợp
 
 Người âm hư, miệng khô, lưỡi đỏ ít rêu: các vị thơm khô làm hao tân dịch.
+
+**Có thai:** bài có Bán hạ — vị phải thận trọng khi có thai. Không tự dùng.

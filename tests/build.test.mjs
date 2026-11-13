@@ -124,3 +124,13 @@ test('Trang bệnh: có thể bệnh, liên kết tới bài đã có, và bắt
   rmSync(dir, { recursive: true, force: true });
   assert.ok(errors.some((e) => e.includes('"cap_cuu"')));
 });
+
+test('Bài thuốc có vị thai kỵ phải ghi rõ cảnh báo có thai ngay trong trang', async () => {
+  const { build } = await import('../tools/build.mjs');
+  const { db } = build({ write: false, log: () => {} });
+  const missing = db.entries
+    .filter((e) => e.loai === 'bai-thuoc' && e.canh_bao.thai.length)
+    .filter((e) => !/có thai/i.test([e.html, ...e.tang.map((t) => t.html)].join(' ')))
+    .map((e) => `${e.id} (${e.canh_bao.thai.map((t) => t.vi).join(', ')})`);
+  assert.deepEqual(missing, []);
+});

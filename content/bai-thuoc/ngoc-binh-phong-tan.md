@@ -4,7 +4,7 @@ ten_han: 玉屏風散
 ten_khac: [Ngọc bình phong]
 tom_tat: Ba vị: Hoàng kỳ, Bạch truật, Phòng phong — bổ khí, làm vững phần biểu, cầm mồ hôi; cho người hay ra mồ hôi, dễ cảm.
 nhom: Bổ khí
-xuat_xu: Đan Khê tâm pháp (Chu Đan Khê, đời Nguyên) — cần đối chiếu
+xuat_xu: Cứu nguyên phương (Trương Tùng, đời Tống), chép trong Y phương loại tụ; cũng có trong Đan Khê tâm pháp — cần đối chiếu
 hinh_anh: Tấm bình phong ngọc dựng trước cửa: gió không lọt vào mà nhà vẫn thoáng.
 chu_tri:
   - Biểu hư, vệ khí không vững — tự ra mồ hôi, sợ gió
@@ -12,9 +12,9 @@ chu_tri:
   - Lưỡi nhạt, mạch phù hư
 cach_dung: Tán bột, sắc uống (cần đối chiếu liều)
 thanh_phan:
-  - Hoàng kỳ | quân | cần đối chiếu | Ích khí cố biểu, cầm mồ hôi
-  - Bạch truật | thần | cần đối chiếu | Kiện Tỳ ích khí — gốc của vệ khí
-  - Phòng phong | tá | cần đối chiếu | Khu phong — đuổi gió mà không hao khí
+  - Hoàng kỳ | quân | 2 lạng (theo Đan Khê; cần đối chiếu) | Ích khí cố biểu, cầm mồ hôi
+  - Bạch truật | thần | 2 lạng (theo Đan Khê; cần đối chiếu) | Kiện Tỳ ích khí — gốc của vệ khí
+  - Phòng phong | tá | 1 lạng (theo Đan Khê; cần đối chiếu) | Khu phong — đuổi gió mà không hao khí
 bo_vi:
   - Phòng phong | Chỉ còn bổ khí cố biểu, nếu đã có phong tà sẽ bị giữ lại bên trong.
   - Hoàng kỳ | Mất sức làm vững phần biểu, mồ hôi vẫn ra.

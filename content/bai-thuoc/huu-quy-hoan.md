@@ -8,22 +8,22 @@ xuat_xu: Cảnh Nhạc toàn thư · Tân phương bát trận (Trương Cảnh 
 hinh_anh: Nhóm lửa dưới nồi (Quế, Phụ), nhưng trước hết đổ đủ nước vào nồi (Thục địa, Sơn thù…).
 chu_tri:
   - Thận dương bất túc, Mệnh môn hỏa suy — sợ lạnh, chân tay lạnh, đau lưng mỏi gối
-  - Liệt dương, di tinh, tiểu đêm nhiều, phân lỏng
+  - Liệt dương, di tinh, tiểu đêm nhiều, phân lỏng (khi phân lỏng thì bỏ Đương quy)
   - Mệt mỏi, lưỡi nhạt, mạch trầm trì
 cach_dung: Làm hoàn mật (cần đối chiếu liều)
 chung: [than-duong-hu]
 phep_tri: [on-bo-than-duong]
 thanh_phan:
-  - Phụ tử | quân | 2 lạng (có thể tăng) | Ôn bổ Thận dương, bổ lửa Mệnh môn
+  - Chế phụ tử | quân | 2 lạng (có thể tăng) | Ôn bổ Thận dương, bổ lửa Mệnh môn — nguyên văn ghi rõ dạng đã chế (chế phụ tử)
   - Nhục quế | quân | 2 lạng (có thể tăng) | Bổ hỏa, dẫn hỏa quy nguyên
   - Lộc giác giao | quân | 4 lạng | Ôn bổ Thận dương, ích tinh huyết
   - Thục địa | thần | 8 lạng | Tư Thận âm — "trong âm cầu dương"
   - Sơn thù du | thần | 3 lạng | Dưỡng Can, giữ tinh
   - Hoài sơn | thần | 4 lạng | Bổ Tỳ, giữ tinh
-  - Câu kỷ tử | thần | 3 lạng | Bổ Can Thận
+  - Câu kỷ tử | thần | 3 lạng (cần đối chiếu — có bản ghi 4 lạng) | Bổ Can Thận
   - Thỏ ty tử | tá | 4 lạng | Bổ Thận giữ tinh
   - Đỗ trọng | tá | 4 lạng | Bổ Can Thận, mạnh lưng
-  - Đương quy | tá | 3 lạng | Bổ huyết
+  - Đương quy | tá | 3 lạng — đi lỏng thì bỏ | Bổ huyết; nguyên văn chú người đi lỏng không dùng (cần đối chiếu)
 bo_vi:
   - Thục địa | Chỉ còn lửa mà thiếu nước làm nền, dễ thành táo nhiệt.
   - Phụ tử | Mất sức ôn dương chính, bài thiên về bổ tinh.
@@ -44,3 +44,5 @@ Từ [[bat-vi-hoan]], Cảnh Nhạc bỏ các vị "xả" và thêm vị bổ ti
 ## Khi nào không hợp
 
 Âm hư hỏa vượng (nóng trong, lưỡi đỏ khô) tuyệt đối không dùng. Bài có Phụ tử là vị độc: chỉ dùng theo thầy thuốc.
+
+**Có thai:** bài có Phụ tử, Nhục quế — vị phải thận trọng khi có thai. Không tự dùng.
